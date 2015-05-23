@@ -16,12 +16,19 @@
             .Game_goban{
                 margin: auto;
             }
+
+            .Game_goban_gameplay, .Game_goban_grid{
+                position: absolute;
+                cursor: pointer;
+            }
         </style>
     </head>
     <body>
-        
         <div class="Game">
-            <canvas class="Game_goban"></canvas>
+            <div class="Game_goban">
+                <canvas class="Game_goban_grid"></canvas>
+                <canvas class="Game_goban_gameplay"></canvas>
+            </div>
         </div>
 
         <!-- build:js js/vendors.js -->

@@ -29,8 +29,11 @@ class Game{
      */     
     constructor(options){
         this.grid = options['grid'].nbre;
-        this.$goban = options['element'];
+        this.$goban = options['goban'].element;
+        this.$goban_grid = options['grid'].element;
+        this.$goban_gameplay = options['gameplay'].element;
         this.cellSize = options['grid'].cellSize;
+        this.rockSize = options['rock'].size;
     }
 
 
@@ -46,19 +49,33 @@ class Game{
 
         // Builder
         var GameBuilder = new Builder({
-            element: this.$goban,
-            grid: {
-                nbre: this.grid,
-                cellSize: this.cellSize
-            }
+          goban: {
+              element: this.$goban
+          },
+          gameplay: {
+              element: this.$goban_gameplay
+          },
+          grid: {
+              element: this.$goban_grid,
+              nbre: this.grid,
+              cellSize: this.cellSize
+          }
         });
         GameBuilder.run();
 
+
         // Gameplay
         var GameGameplay = new Gameplay({
-            element: this.$goban,
+            element: this.$goban_gameplay,
+            grid: {
+                nbre: this.grid,
+                cellSize: this.cellSize
+            },
+            rock: {
+                size: this.rockSize,
+            }
         });
-        GameGameplay.run();
+        GameGameplay.listenner();
 
     }
 }

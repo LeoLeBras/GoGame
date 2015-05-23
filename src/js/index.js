@@ -17,13 +17,24 @@ import Game from "./app/index.js";
 
 // Set options
 var options = {
-    element: '.Game_goban',
+    goban: {
+        element: '.Game_goban',
+    },
+    gameplay: {
+        element: '.Game_goban_gameplay',
+    },
     grid: {
         nbre: '19',
+        element: '.Game_goban_grid',
         cellSize: 40,
         backgroundColor: 'white',
         borderColor: 'black',
         borderWidth: 1,
+    },
+    rock:{
+        size: 15,
+        player1Color : 'grey',
+        player2Color : 'black',
     }
 };
 
