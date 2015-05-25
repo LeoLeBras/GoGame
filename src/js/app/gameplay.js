@@ -126,7 +126,7 @@ class Gameplay{
                 // Draw the rock
                 var c = this.canvas;
                 c.beginPath();
-                c.arc(this.x * this.cellSize, this.y * this.cellSize, this.rockSize, 0, 2 * Math.PI, false);
+                c.arc(this.x * this.cellSize, this.y * this.cellSize, this.rockSize / 2, 0, 2 * Math.PI, false);
                 c.closePath();
                 c.fillStyle = color;
                 c.fill();
@@ -160,7 +160,8 @@ class Gameplay{
             this.tab[`${this.x};${this.y - 1}`] == this.enemy ||
             this.tab[`${this.x + 1};${this.y}`] == this.enemy ||
             this.tab[`${this.x};${this.y + 1}`] == this.enemy ||
-            this.tab[`${this.x - 1};${this.y}`] == this.enemy){
+            this.tab[`${this.x - 1};${this.y}`] == this.enemy)
+        {
 
             // Return the territory of the neighbors 
             if(this.tab[`${this.x};${this.y - 1}`] == this.enemy){
@@ -176,31 +177,62 @@ class Gameplay{
                 this.territory['left'] = new Territory(this.tab, this.enemy, this.x - 1, this.y);
             } 
 
-            for(var i in this.territory){
-                console.log('***');
-                console.log(`To ${i} :`);
-                console.log(this.territory[i].findBorderTerritory());
-            }
-
-            /*
-            // Gather border territories
+            // Tiny territories
             this.cache = [];
+            this.territories = [];
+            this.territories['getBorders'] = [];
+            this.territories['get'] = [];
             for(let i in this.territory){
-                let territory = this.territory[i].findBorderTerritory();
-                if(this.cache.indexOf(JSON.stringify(territory)) != 1){
-                    this.territories.push(territory);
-                    this.cache.push(JSON.stringify(territory));
+                let territoryCache = this.territory[i].findBorderTerritory();
+                if(this.cache.indexOf(JSON.stringify(territoryCache)) == -1){
+                    this.territories['getBorders'].push(territoryCache);
+                    this.cache.push(JSON.stringify(territoryCache));
                 }
             }
 
-            // For each border territories, check if it's around
-            console.log('***');
-            console.log(`Territoire(s) nettoyé(s) :`);
-            for(let territory of this.territories){
-                console.log(territory);
-            }*/
-        }
+            // Verification of encirclement territories
+            for(let territory of this.territories['getBorders']){
+                this.cache = 0;
 
+                // Test
+                for(let rock of territory){
+                    let index = rock.lastIndexOf(';');
+                    let x = parseInt(rock.substr(0, index));
+                    let y = parseInt(rock.substring(index + 1));
+
+                    if(this.tab[`${x};${y - 1}`] != 0 &&
+                       this.tab[`${x + 1};${y}`] != 0 &&
+                       this.tab[`${x};${y + 1}`] != 0 &&
+                       this.tab[`${x - 1};${y}`] != 0)
+                    {
+                        this.cache++;
+                    }
+                }
+
+                // The territory is circled
+                if(this.cache == territory.length){
+
+                    // Deubg
+                    console.log('**');
+                    console.log('Enemy territory circled !');
+                    console.log(territory);
+
+                    // Delete each rock
+                    for(let rockDied of territory){
+
+                        // In the tab
+                        this.tab[rockDied] = 0 ;
+
+                        // On the interface
+                        let index = rockDied.lastIndexOf(';');
+                        this.x = parseInt(rockDied.substr(0, index)) * this.cellSize - 1 - this.rockSize / 2;
+                        this.y = parseInt(rockDied.substring(index + 1)) * this.cellSize - 1 - this.rockSize / 2;
+                        this.canvas.clearRect(this.x,this.y,this.rockSize + 2, this.rockSize + 2);
+
+                    }
+                }
+            }
+        }
     }
 }
 

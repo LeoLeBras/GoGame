@@ -2,18 +2,36 @@
 <html class="no-js home" lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Starter</title>
-        <meta name="description" content="">
+        <title>Jeu de GO</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/png" href="img/favicon.png" />
         <script src="js/webfontloading.js"></script>
         <link rel="stylesheet" href="css/style.css">
+        <style>
+            .Game{
+                display: flex;
+                width: 100vw;
+                height: 100vh;
+            }
+
+            .Game_goban{
+                margin: auto;
+            }
+
+            .Game_goban_gameplay, .Game_goban_grid{
+                position: absolute;
+                cursor: pointer;
+            }
+        </style>
     </head>
     <body>
-        <main class="Starter">
-            <h1 class="Starter__title">It works ! :)</h1>
-        </main>
-        <script src="js/index.js"></script>
+        <div class="Game">
+            <div class="Game_goban">
+                <canvas class="Game_goban_grid"></canvas>
+                <canvas class="Game_goban_gameplay"></canvas>
+            </div>
+        </div>
+
         <script src="js/vendors.js"></script>
+        <script src="js/index.js"></script>
     </body>
 </html>
