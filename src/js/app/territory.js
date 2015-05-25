@@ -21,11 +21,13 @@ export class Territory{
         this.enemy = enemy;
         this.x = x;
         this.y = y;
-        this.start = `${this.x};${this.y - 1}`;
+        this.start = `${this.x};${this.y}`;
         this.cache = [];
         this.around = [];
         this.territory = [];
         this.borderTerritory = [];
+        this.indexGoBack;
+        this.newRock = true;
     }
 
     findTerritory(){
@@ -33,8 +35,12 @@ export class Territory{
         // Init around rocks
         this.around= [];
 
-        this.cache[`${this.x};${this.y}`] = 'check';
-        this.territory.push(`${this.x};${this.y}`);
+        // Save
+        if(this.newRock){
+            this.cache[`${this.x};${this.y}`] = 'check';
+            this.indexGoBack = this.territory.length;
+            this.territory.push(`${this.x};${this.y}`);
+        }
 
         // We check rocks around
         for(var i = 1; i <= 4; i++){
@@ -68,16 +74,24 @@ export class Territory{
         // If no enemies
         if(this.around.length == 0){
 
-            // This is the end, Hold your breath and count to ten, Feel the earth move, and them ... ♪♫
-            if(this.start == `${this.x};${this.y}`){
-            }
-            
-            // Go back !
-            else{
+            // If we can go back to find more new rocks
+            if(!(this.start == `${this.x};${this.y}`)){
+
+                // Said we go back
+                this.newRock = false;
+                this.indexGoBack = this.indexGoBack - 1;
+                
+                // Set new coordinates for the next jump
+                var index = this.territory[this.indexGoBack].lastIndexOf(';');
+                this.x = parseInt(this.territory[this.indexGoBack].substr(0, index));
+                this.y = parseInt(this.territory[this.indexGoBack].substring(index + 1));
+
+                // Jump by recursion to an another rock
+                this.findTerritory();
 
             }
-
         }
+
         else{
 
             // Check one enemy
@@ -89,10 +103,15 @@ export class Territory{
             this.y = parseInt(this.around[this.random].substring(index + 1));
 
             // Jump by recursion to an another rock
+            this.newRock = true;
             this.findTerritory();
 
         }
+    }
 
+    findAllTerritory(){
+        this.findTerritory();
+        return this.territory;
     }
 
     findBorderTerritory(){

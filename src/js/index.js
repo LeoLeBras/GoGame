@@ -24,7 +24,7 @@ var options = {
         element: '.Game_goban_gameplay',
     },
     grid: {
-        nbre: '7',
+        nbre: '19',
         element: '.Game_goban_grid',
         cellSize: 40,
         backgroundColor: 'white',
@@ -32,7 +32,7 @@ var options = {
         borderWidth: 2,
     },
     rock:{
-        size: 10,
+        size: 20,
         player1: 'grey',
         player2: 'black',
     }
