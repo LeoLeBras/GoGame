@@ -7,7 +7,7 @@
   *
   * Work with ES6+ (with babel transpiler)
   *
-  * Copyright 2012, 2014
+  * Copyright 2015
   * Released under the MIT license
   * http://opensource.org/licenses/MIT
   *

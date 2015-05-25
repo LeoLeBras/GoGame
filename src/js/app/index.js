@@ -7,7 +7,7 @@
   *
   * Work with ES6+ (with babel transpiler)
   *
-  * Copyright 2012, 2014
+  * Copyright 2015
   * Released under the MIT license
   * http://opensource.org/licenses/MIT
   *
@@ -29,11 +29,17 @@ class Game{
      */     
     constructor(options){
         this.grid = options['grid'].nbre;
+        this.gridBorderWidth = options['grid'].borderWidth;
+
         this.$goban = options['goban'].element;
         this.$goban_grid = options['grid'].element;
         this.$goban_gameplay = options['gameplay'].element;
+
         this.cellSize = options['grid'].cellSize;
+
         this.rockSize = options['rock'].size;
+        this.rockPlayer1 = options['rock'].player1;
+        this.rockPlayer2 = options['rock'].player2;
     }
 
 
@@ -58,7 +64,8 @@ class Game{
           grid: {
               element: this.$goban_grid,
               nbre: this.grid,
-              cellSize: this.cellSize
+              cellSize: this.cellSize,
+              borderWidth : this.gridBorderWidth,
           }
         });
         GameBuilder.run();
@@ -73,6 +80,8 @@ class Game{
             },
             rock: {
                 size: this.rockSize,
+                player1: this.rockPlayer1,
+                player2: this.rockPlayer2,
             }
         });
         GameGameplay.listenner();

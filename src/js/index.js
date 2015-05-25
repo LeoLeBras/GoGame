@@ -1,16 +1,16 @@
- /**
-  * Minions in da’ game, brotha 😎
-  * Raphaëlle Limoges, Alexandra Cossid, Charles Mangwa et Léo Le Bras
-  * HETIC P2019
-  *
-  * Work with ES6+ (with babel transpileler)
-  *
-  * Copyright 2012, 2014
-  * Released under the MIT license
-  * http://opensource.org/licenses/MIT
-  *
-  * Date of creation : 2015-05-19
-  */
+/**
+ * Minions in da’ game, brotha 😎
+ * Raphaëlle Limoges, Alexandra Cossid, Charles Mangwa et Léo Le Bras
+ * HETIC P2019
+ *
+ * Work with ES6+ (with babel transpileler)
+ *
+ * Copyright 2015
+ * Released under the MIT license
+ * http://opensource.org/licenses/MIT
+ *
+ * Date of creation : 2015-05-19
+ */
 
 // Import the app
 import Game from "./app/index.js";
@@ -24,17 +24,17 @@ var options = {
         element: '.Game_goban_gameplay',
     },
     grid: {
-        nbre: '19',
+        nbre: '7',
         element: '.Game_goban_grid',
         cellSize: 40,
         backgroundColor: 'white',
         borderColor: 'black',
-        borderWidth: 1,
+        borderWidth: 2,
     },
     rock:{
-        size: 15,
-        player1Color : 'grey',
-        player2Color : 'black',
+        size: 10,
+        player1: 'grey',
+        player2: 'black',
     }
 };
 

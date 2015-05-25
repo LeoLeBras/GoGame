@@ -7,7 +7,7 @@
   *
   * Work with ES6+ (with babel transpiler)
   *
-  * Copyright 2012, 2014
+  * Copyright 2015
   * Released under the MIT license
   * http://opensource.org/licenses/MIT
   *
@@ -24,6 +24,8 @@ class Builder{
      */     
     constructor(options){
         this.grid = options['grid'].nbre;
+        this.gridborderWidth = options['grid'].borderWidth;
+
         this.cellSize = options['grid'].cellSize;
         this.gridSize = (parseInt(this.grid) + 1) * this.cellSize;
 
@@ -60,20 +62,17 @@ class Builder{
 
 
     /**
-     * Build the gameplay
+     * Build the gameplay canvas
      *
      * @return canvas
      */  
     buildGameplay(){
-
-        // Set size of canvas
         this.$goban_gameplay.dom[0].width = this.gridSize;
         this.$goban_gameplay.dom[0].height = this.gridSize;
         this.$goban_gameplay.css({
             width: this.gridSize,
             height: this.gridSize
         })
-
     }
 
 
@@ -105,14 +104,14 @@ class Builder{
             c.beginPath();
             c.moveTo(this.cellSize, this.cellSize * x);
             c.lineTo(this.gridSize - this.cellSize, this.cellSize * x);
-            c.lineWidth = 2;
+            c.lineWidth = this.gridborderWidth;
             c.stroke();
         }
         for(var y = 1; y <= this.grid ; y++){
             c.beginPath();
             c.moveTo(this.cellSize * y, this.cellSize);
             c.lineTo(this.cellSize * y, this.gridSize - this.cellSize);
-            c.lineWidth = 2;
+            c.lineWidth = this.gridborderWidth;
             c.stroke();
         }
     }
