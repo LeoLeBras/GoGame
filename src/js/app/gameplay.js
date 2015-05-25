@@ -177,25 +177,24 @@ class Gameplay{
                 this.territory['left'] = new Territory(this.tab, this.enemy, this.x - 1, this.y);
             } 
 
-            // Tiny territories
+            // Tiny territories (delete boublon)
             this.cache = [];
             this.territories = [];
-            this.territories['getBorders'] = [];
-            this.territories['get'] = [];
             for(let i in this.territory){
-                let territoryCache = this.territory[i].findBorderTerritory();
-                if(this.cache.indexOf(JSON.stringify(territoryCache)) == -1){
-                    this.territories['getBorders'].push(territoryCache);
-                    this.cache.push(JSON.stringify(territoryCache));
+                let territory = this.territory[i];
+                territory.findTerritory();
+                if(this.cache.indexOf(JSON.stringify(territory.get())) == -1){
+                    this.territories.push(territory);
+                    this.cache.push(JSON.stringify(territory.get()));
                 }
             }
 
             // Verification of encirclement territories
-            for(let territory of this.territories['getBorders']){
+            for(let territory of this.territories){
                 this.cache = 0;
-
+                
                 // Test
-                for(let rock of territory){
+                for(let rock of territory.getBorders()){
                     let index = rock.lastIndexOf(';');
                     let x = parseInt(rock.substr(0, index));
                     let y = parseInt(rock.substring(index + 1));
@@ -210,15 +209,15 @@ class Gameplay{
                 }
 
                 // The territory is circled
-                if(this.cache == territory.length){
+                if(this.cache == territory.getBorders().length){
 
                     // Deubg
                     console.log('**');
                     console.log('Enemy territory circled !');
-                    console.log(territory);
+                    console.log(territory.get());
 
                     // Delete each rock
-                    for(let rockDied of territory){
+                    for(let rockDied of territory.get()){
 
                         // In the tab
                         this.tab[rockDied] = 0 ;

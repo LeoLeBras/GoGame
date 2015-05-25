@@ -22,6 +22,7 @@ export class Territory{
         this.x = x;
         this.y = y;
         this.start = `${this.x};${this.y}`;
+        this.coordinate;
         this.cache = [];
         this.around = [];
         this.territory = [];
@@ -46,28 +47,25 @@ export class Territory{
         for(var i = 1; i <= 4; i++){
             switch(i){
                 case 1:
-                    if(this.tab[`${this.x};${this.y - 1}`] == this.enemy && this.cache[`${this.x};${this.y - 1}`]  != 'check'){
-                        this.around.push(`${this.x};${this.y - 1}`);
-                    }
+                    this.coordinate = `${this.x};${this.y - 1}`;
                     break;
 
                 case 2:
-                    if(this.tab[`${this.x + 1};${this.y}`] == this.enemy && this.cache[`${this.x + 1};${this.y}`]  != 'check'){
-                        this.around.push(`${this.x + 1};${this.y}`);
-                    }
+                    this.coordinate = `${this.x + 1};${this.y}`;
                     break;
 
                 case 3:
-                    if(this.tab[`${this.x};${this.y + 1}`] == this.enemy && this.cache[`${this.x};${this.y + 1}`]  != 'check'){
-                        this.around.push(`${this.x};${this.y + 1}`);
-                    }
+                    this.coordinate = `${this.x};${this.y + 1}`;
                     break;
 
                 case 4:
-                    if(this.tab[`${this.x - 1};${this.y}`] == this.enemy && this.cache[`${this.x - 1};${this.y}`]  != 'check'){
-                        this.around.push(`${this.x - 1};${this.y}`);
-                    }
+                    this.coordinate = `${this.x - 1};${this.y}`;
                     break;
+            }
+
+
+            if(this.tab[this.coordinate] == this.enemy && this.cache[this.coordinate]  != 'check'){
+                this.around.push(this.coordinate);
             }
         }
 
@@ -109,28 +107,39 @@ export class Territory{
         }
     }
 
-    findAllTerritory(){
-        this.findTerritory();
-        return this.territory;
+
+    /**
+     * Return all the territory
+     *
+     * @return this.territory array
+     */ 
+    get(){
+        return this.territory.sort();
     }
 
-    findBorderTerritory(){
 
-        this.findTerritory();
+    /**
+     * Return borders of the territory
+     *
+     * @return this.territory array
+     */ 
+    getBorders(){
 
-        for(var item of this.territory){
+        if(this.borderTerritory.length == 0){
+            for(var item of this.territory){
 
-            // Set coordinates of the current rock
-            var index = item.lastIndexOf(';');
-            this.x = parseInt(item.substr(0, index));
-            this.y = parseInt(item.substring(index + 1));
+                // Set coordinates of the current rock
+                var index = item.lastIndexOf(';');
+                this.x = parseInt(item.substr(0, index));
+                this.y = parseInt(item.substring(index + 1));
 
-            // Check if the rock is not totally around to know if it's on the border
-            if(!(this.tab[`${this.x};${this.y - 1}`] == this.enemy &&
-                this.tab[`${this.x + 1};${this.y}`] == this.enemy &&
-                this.tab[`${this.x};${this.y + 1}`] == this.enemy &&
-                this.tab[`${this.x - 1};${this.y}`] == this.enemy)){
-                this.borderTerritory.push(item);
+                // Check if the rock is not totally around to know if it's on the border
+                if(!(this.tab[`${this.x};${this.y - 1}`] == this.enemy &&
+                    this.tab[`${this.x + 1};${this.y}`] == this.enemy &&
+                    this.tab[`${this.x};${this.y + 1}`] == this.enemy &&
+                    this.tab[`${this.x - 1};${this.y}`] == this.enemy)){
+                    this.borderTerritory.push(item);
+                }
             }
         }
 
