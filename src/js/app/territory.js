@@ -16,22 +16,27 @@
 
 export class Territory{
 
+    /**
+     * Init options
+     *
+     * @param tab (array)
+     * @param ennemy (number)
+     * @param x and y coordinate (numbers)
+     */     
     constructor(tab, enemy, x, y){
 
         this.tab = tab;
-        this.territory = [];
-        this.borderTerritory = [];
-        
         this.enemy = enemy;
-        this.start = `${this.x};${this.y}`;
-        this.coordinate;
         this.x = x;
         this.y = y;
-        
+        this.start = `${this.x};${this.y}`;
+        this.coordinate;
+        this.cache = [];
+        this.around = [];
+        this.territory = [];
+        this.borderTerritory = [];
         this.indexGoBack;
         this.newRock = true;
-        this.around = [];
-        this.cache = [];
 
         this.run();
 
@@ -78,7 +83,6 @@ export class Territory{
                     break;
             }
 
-
             if(this.tab[this.coordinate] == this.enemy && this.cache[this.coordinate]  != 'check'){
                 this.around.push(this.coordinate);
             }
@@ -101,10 +105,8 @@ export class Territory{
 
                 // Jump by recursion to an another rock
                 this.run();
-
             }
         }
-
         else{
 
             // Check one enemy
@@ -126,7 +128,6 @@ export class Territory{
 
 
 
-
     /**
      * Return all the territory
      *
@@ -135,7 +136,6 @@ export class Territory{
     get(){
         return this.territory.sort();
     }
-
 
 
 
@@ -163,9 +163,9 @@ export class Territory{
                     this.tab[`${this.x - 1};${this.y}`] == this.enemy)){
                     this.borderTerritory.push(item);
                 }
-
             }
         }
+
         return this.borderTerritory.sort();
 
     }
