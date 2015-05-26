@@ -39,19 +39,39 @@ class Gameplay{
         this.player = 1;
         this.enemy = this.player++;
 
+        this.coordinate;
+        this.x;
+        this.y;
+
         this.tab = [];
         this.territories = [];
         this.territory = [];
         this.cache = [];
 
-        // Initialyse the tab
+        this.init();
+
+    }
+
+
+
+
+
+
+    /**
+     * Initialize the array
+     *
+     */ 
+    init(){
         for(var x = 1; x <= this.grid ; x++){
             for(var y = 1; y <= this.grid ; y++){
                 this.tab[`${x};${y}`] = 0;
             }
         }
-
     }
+
+
+
+
 
 
     /**
@@ -62,7 +82,12 @@ class Gameplay{
 
         // The player click on the goban to play
         Sprint(this.$goban).on('click', function(e){
-            if(this.create(e.layerX, e.layerY)){
+
+            // Set coordinates 
+            this.x = Math.floor((layerX + this.cellSize / 2) / this.cellSize);
+            this.y = Math.floor((layerY + this.cellSize / 2) / this.cellSize);
+
+            if(this.create(this.x, this.y)){
                 
                 // Debug
                 console.log(`*********************************`);
@@ -81,6 +106,10 @@ class Gameplay{
     }
 
 
+
+
+
+
     /**
      * Check if we are in a case of suicide
      *
@@ -88,6 +117,10 @@ class Gameplay{
     checkSuicide(){
         return false;
     }
+
+
+
+
 
 
     /**
@@ -99,19 +132,19 @@ class Gameplay{
     }
 
 
+
+
+
+
     /**
      * Create a rock
      *
      * @params coordinates click
-     * @return a rock drawn on the canvas
+     * @return a rock created
      */  
-    create(layerX, layerY){
+    create(x, y){
 
-        // Set coordinates 
-        this.x = Math.floor((layerX + this.cellSize / 2) / this.cellSize);
-        this.y = Math.floor((layerY + this.cellSize / 2) / this.cellSize);
-
-        // Set color
+        // Set color of the player
         var color = this.rockPlayer1;
         if(this.player == 2){
             color = this.rockPlayer2;
@@ -146,8 +179,12 @@ class Gameplay{
     }
 
 
+
+
+
+
     /**
-     * Rewrite goban with the last action of the player
+     * Rewrite the goban with the last action of the player
      *
      */  
     rewriteGoban(){
@@ -163,7 +200,7 @@ class Gameplay{
             this.tab[`${this.x - 1};${this.y}`] == this.enemy)
         {
 
-            // Return the territory of the neighbors 
+            // Return the territory of the ennemy neighbors
             if(this.tab[`${this.x};${this.y - 1}`] == this.enemy){
                 this.territory['top'] = new Territory(this.tab, this.enemy, this.x, this.y - 1);
             }
@@ -177,41 +214,23 @@ class Gameplay{
                 this.territory['left'] = new Territory(this.tab, this.enemy, this.x - 1, this.y);
             } 
 
+
             // Tiny territories (delete boublon)
             this.cache = [];
             this.territories = [];
             for(let i in this.territory){
                 let territory = this.territory[i];
-                territory.findTerritory();
                 if(this.cache.indexOf(JSON.stringify(territory.get())) == -1){
                     this.territories.push(territory);
                     this.cache.push(JSON.stringify(territory.get()));
                 }
             }
 
-            // Verification of encirclement territories
+            // Verification the encirclement of each territory
             for(let territory of this.territories){
-                this.cache = 0;
-                
-                // Test
-                for(let rock of territory.getBorders()){
-                    let index = rock.lastIndexOf(';');
-                    let x = parseInt(rock.substr(0, index));
-                    let y = parseInt(rock.substring(index + 1));
-
-                    if(this.tab[`${x};${y - 1}`] != 0 &&
-                       this.tab[`${x + 1};${y}`] != 0 &&
-                       this.tab[`${x};${y + 1}`] != 0 &&
-                       this.tab[`${x - 1};${y}`] != 0)
-                    {
-                        this.cache++;
-                    }
-                }
-
-                // The territory is circled
-                if(this.cache == territory.getBorders().length){
-
-                    // Deubg
+                if(territory.isDead()){
+                    
+                    // Debug
                     console.log('**');
                     console.log('Enemy territory circled !');
                     console.log(territory.get());

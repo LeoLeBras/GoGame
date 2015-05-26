@@ -54,7 +54,7 @@ class Game{
     run(){
 
         // Builder
-        var GameBuilder = new Builder({
+        this.GameBuilder = new Builder({
           goban: {
               element: this.$goban
           },
@@ -68,11 +68,11 @@ class Game{
               borderWidth : this.gridBorderWidth,
           }
         });
-        GameBuilder.run();
+        this.GameBuilder.run();
 
 
         // Gameplay
-        var GameGameplay = new Gameplay({
+        this.GameGameplay = new Gameplay({
             element: this.$goban_gameplay,
             grid: {
                 nbre: this.grid,
@@ -84,7 +84,7 @@ class Game{
                 player2: this.rockPlayer2,
             }
         });
-        GameGameplay.listenner();
+        this.GameGameplay.listenner();
 
     }
 }

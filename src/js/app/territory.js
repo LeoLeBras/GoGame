@@ -17,21 +17,36 @@
 export class Territory{
 
     constructor(tab, enemy, x, y){
+
         this.tab = tab;
-        this.enemy = enemy;
-        this.x = x;
-        this.y = y;
-        this.start = `${this.x};${this.y}`;
-        this.coordinate;
-        this.cache = [];
-        this.around = [];
         this.territory = [];
         this.borderTerritory = [];
+        
+        this.enemy = enemy;
+        this.start = `${this.x};${this.y}`;
+        this.coordinate;
+        this.x = x;
+        this.y = y;
+        
         this.indexGoBack;
         this.newRock = true;
+        this.around = [];
+        this.cache = [];
+
+        this.run();
+
     }
 
-    findTerritory(){
+
+
+
+
+
+    /**
+     * Find the territory by recursion
+     *
+     */  
+    run(){
 
         // Init around rocks
         this.around= [];
@@ -85,7 +100,7 @@ export class Territory{
                 this.y = parseInt(this.territory[this.indexGoBack].substring(index + 1));
 
                 // Jump by recursion to an another rock
-                this.findTerritory();
+                this.run();
 
             }
         }
@@ -102,26 +117,34 @@ export class Territory{
 
             // Jump by recursion to an another rock
             this.newRock = true;
-            this.findTerritory();
+            this.run();
 
         }
     }
 
 
+
+
+
+
     /**
      * Return all the territory
      *
-     * @return this.territory array
+     * @return array
      */ 
     get(){
         return this.territory.sort();
     }
 
 
+
+
+
+
     /**
      * Return borders of the territory
      *
-     * @return this.territory array
+     * @return array
      */ 
     getBorders(){
 
@@ -140,11 +163,55 @@ export class Territory{
                     this.tab[`${this.x - 1};${this.y}`] == this.enemy)){
                     this.borderTerritory.push(item);
                 }
+
+            }
+        }
+        return this.borderTerritory.sort();
+
+    }
+
+
+
+
+
+
+    /**
+     * Check if the territory is dead
+     *
+     * @return true or false
+     */ 
+    isDead(){
+
+
+        // Get borders of the territory
+        if(this.borderTerritory.length == 0){
+            this.getBorders();
+        }
+
+        // Init cache
+        this.cache = 0;
+        
+        for(let rock of this.borderTerritory){
+            let index = rock.lastIndexOf(';');
+            let x = parseInt(rock.substr(0, index));
+            let y = parseInt(rock.substring(index + 1));
+
+            // Check if the rock has any liberties
+            if(this.tab[`${x};${y - 1}`] != 0 &&
+               this.tab[`${x + 1};${y}`] != 0 &&
+               this.tab[`${x};${y + 1}`] != 0 &&
+               this.tab[`${x - 1};${y}`] != 0)
+            {
+                this.cache++;
             }
         }
 
-        return this.borderTerritory.sort();
-
+        if(this.cache == this.borderTerritory.length){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
 
