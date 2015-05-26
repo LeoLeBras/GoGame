@@ -182,7 +182,6 @@ export class Territory{
      */ 
     isDead(){
 
-
         // Get borders of the territory
         if(this.borderTerritory.length == 0){
             this.getBorders();
