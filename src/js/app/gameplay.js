@@ -54,6 +54,10 @@ class Gameplay{
     }
 
 
+
+
+
+
     /**
      * Listen event on the gameplay 
      *
@@ -62,7 +66,12 @@ class Gameplay{
 
         // The player click on the goban to play
         Sprint(this.$goban).on('click', function(e){
-            if(this.create(e.layerX, e.layerY)){
+
+            // Set coordinates 
+            this.x = Math.floor((e.layerX + this.cellSize / 2) / this.cellSize);
+            this.y = Math.floor((e.layerY + this.cellSize / 2) / this.cellSize);
+
+            if(this.create(this.x, this.y)){
                 
                 // Debug
                 console.log(`*********************************`);
@@ -81,6 +90,10 @@ class Gameplay{
     }
 
 
+
+
+
+
     /**
      * Check if we are in a case of suicide
      *
@@ -88,6 +101,10 @@ class Gameplay{
     checkSuicide(){
         return false;
     }
+
+
+
+
 
 
     /**
@@ -99,17 +116,17 @@ class Gameplay{
     }
 
 
+
+
+
+
     /**
      * Create a rock
      *
      * @params coordinates click
      * @return a rock drawn on the canvas
      */  
-    create(layerX, layerY){
-
-        // Set coordinates 
-        this.x = Math.floor((layerX + this.cellSize / 2) / this.cellSize);
-        this.y = Math.floor((layerY + this.cellSize / 2) / this.cellSize);
+    create(x, y){
 
         // Set color
         var color = this.rockPlayer1;
@@ -144,6 +161,10 @@ class Gameplay{
             return false;
         }
     }
+
+
+
+
 
 
     /**

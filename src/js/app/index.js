@@ -86,6 +86,11 @@ class Game{
         });
         GameGameplay.listenner();
 
+
+        // Score
+        var GameScore = new Score();
+        GameScore.run();
+
     }
 }
 

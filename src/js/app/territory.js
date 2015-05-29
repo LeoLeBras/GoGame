@@ -165,7 +165,6 @@ export class Territory{
                 }
             }
         }
-
         return this.borderTerritory.sort();
 
     }
@@ -187,8 +186,37 @@ export class Territory{
             this.getBorders();
         }
 
-        // Init cache
-        this.cache = 0;
+        // Get liberties of the territory
+        if(this.liberties == 0){
+            this.getLiberties();
+        }
+
+        if(this.liberties == this.borderTerritory.length){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+
+
+
+
+
+    /**
+     * Get liberties of the territories
+     *
+     * @return this.liberties (number)
+     */ 
+
+        // Get borders of the territory
+        if(this.borderTerritory.length == 0){
+            this.getBorders();
+        }
+
+        this.liberties = 0;
         
         for(let rock of this.borderTerritory){
             let index = rock.lastIndexOf(';');
@@ -201,16 +229,12 @@ export class Territory{
                this.tab[`${x};${y + 1}`] != 0 &&
                this.tab[`${x - 1};${y}`] != 0)
             {
-                this.cache++;
+                this.liberties++;
             }
         }
 
-        if(this.cache == this.borderTerritory.length){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return this.liberties;
+
     }
 }
 
