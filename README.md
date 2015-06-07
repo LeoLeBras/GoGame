@@ -4,6 +4,6 @@
 **Lead designer** : Raphaëlle LIMOGES<br/>
 **Lead developer** : Léo LE BRAS<br/>
 **Communication manager** : Charles MANGWA<br/>
-**Developers** : Alexandra COSSID - Théo KUNETZ - Charles MANGWA<br/><br/><br/>
+**Developers** : Alexandra COSSID - Théo KUNETZ - Charles MANGWA<br/><br/>
 
 *With <3 from Paris !*
