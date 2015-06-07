@@ -1,4 +1,4 @@
-**Minions Go** by HETIC P2019<br/><br/>
+<h1>**Minions Go** by HETIC P2019</h1><br/><br/>
 
 **Project manager** : Léo LE BRAS<br/>
 **Lead Designer** : Raphaëlle LIMOGES<br/>
