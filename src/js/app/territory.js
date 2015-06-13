@@ -1,20 +1,4 @@
- /**
-  * Minions in da’ game, brotha 😎
-  * Raphaëlle Limoges, Alexandra Cossid, Charles Mangwa et Léo Le Bras
-  * HETIC P2019
-  *
-  * Territory module
-  *
-  * Work with ES6+ (with babel transpiler)
-  *
-  * Copyright 2015
-  * Released under the MIT license
-  * http://opensource.org/licenses/MIT
-  *
-  * Date of creation : 2015-05-19
-  */
-
-export class Territory{
+class Territory{
 
     /**
      * Init options
@@ -26,17 +10,22 @@ export class Territory{
     constructor(tab, enemy, x, y){
 
         this.tab = tab;
+        
         this.enemy = enemy;
+        
+        this.coordinate;
         this.x = x;
         this.y = y;
-        this.start = `${this.x};${this.y}`;
-        this.coordinate;
-        this.cache = [];
-        this.around = [];
+        
+        this.liberties = 0;
         this.territory = [];
         this.borderTerritory = [];
+        
+        this.start = `${this.x};${this.y}`;
         this.indexGoBack;
         this.newRock = true;
+        this.cache = [];
+        this.around = [];
 
         this.run();
 
@@ -57,8 +46,8 @@ export class Territory{
         this.around= [];
 
         // Save
-        if(this.newRock){
-            this.cache[`${this.x};${this.y}`] = 'check';
+        if(this.newRock == true){
+            this.cache['`${this.x};${this.y}`'] = 'check';
             this.indexGoBack = this.territory.length;
             this.territory.push(`${this.x};${this.y}`);
         }
@@ -99,6 +88,9 @@ export class Territory{
                 this.indexGoBack = this.indexGoBack - 1;
                 
                 // Set new coordinates for the next jump
+
+                this.territoy[this.indexGoBack] // 1;1
+
                 var index = this.territory[this.indexGoBack].lastIndexOf(';');
                 this.x = parseInt(this.territory[this.indexGoBack].substr(0, index));
                 this.y = parseInt(this.territory[this.indexGoBack].substring(index + 1));
@@ -165,6 +157,7 @@ export class Territory{
                 }
             }
         }
+        
         return this.borderTerritory.sort();
 
     }
@@ -210,6 +203,7 @@ export class Territory{
      *
      * @return this.liberties (number)
      */ 
+    getLiberties(){
 
         // Get borders of the territory
         if(this.borderTerritory.length == 0){
@@ -237,5 +231,3 @@ export class Territory{
 
     }
 }
-
-module.exports = Territory; 

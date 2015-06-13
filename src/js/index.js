@@ -1,6 +1,6 @@
 /**
  * Minions in da’ game, brotha 😎
- * Raphaëlle Limoges, Alexandra Cossid, Charles Mangwa et Léo Le Bras
+ * Raphaëlle Limoges, Alexandra Cossid, Charles Mangwa, THéo Knutz et Léo Le Bras
  * HETIC P2019
  *
  * Work with ES6+ (with babel transpileler)
@@ -12,10 +12,6 @@
  * Date of creation : 2015-05-19
  */
 
-// Import the app
-import Game from "./app/index.js";
-
-// Set options
 var options = {
     goban: {
         element: '.Game_goban'
@@ -38,6 +34,5 @@ var options = {
     }
 };
 
-// Initialize and run the game
 var GoGame = new Game(options);
 GoGame.run();

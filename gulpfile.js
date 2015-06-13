@@ -27,6 +27,7 @@ var autoprefixer = require('gulp-autoprefixer'),
     browserSync = require('browser-sync'),
     clean = require('gulp-rimraf'),
     cssbeautify = require('gulp-cssbeautify'),
+    concat = require('gulp-concat'),
     gulp = require('gulp'),
     gulpif = require('gulp-if'),
     gutil = require('gulp-util'),
@@ -165,7 +166,8 @@ gulp.task('sass', function(){
  */
 
 gulp.task('js', function () {
-   gulp.src([srcDir + jsDir + '*.js'])
+   gulp.src([srcDir + jsDir + 'app/*.js', srcDir + jsDir + 'index.js'])
+      .pipe(concat('index.js'))
       .pipe(browserify({
           transform: ['babelify'],
           debug: true
