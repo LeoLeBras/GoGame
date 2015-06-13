@@ -167,7 +167,7 @@ class Rock{
                 player = tab[this.x][this.y].getPlayer();
                 break;
             case 'ennemy':
-                player = ((tab[this.x][this.y].getPlayer() + 1) % 2) + 1;
+                player = ((tab[this.x][this.y].getPlayer() + 2) % 2) + 1;
                 break;
         }
 

@@ -138,65 +138,61 @@ class Gameplay{
 
 
     /**
-     * Handle the chains
+     * Handle chains
      *
      */  
     handleChains(){
 
-        console.log(this.chains);
+        // Get neighbors
+        var neighbors = this.rock.getNeighboringIntersections(this.tab, 'current');
 
-        var neighboringIntersections = this.rock.getNeighboringIntersections(this.tab, 'current');
-        var currentRock = {
-            x: this.rock.x,
-            y: this.rock.y
-        };
-
-        if(neighboringIntersections != 0){
+        if(neighbors.length != 0){
             
-            // Get chains of the current player around the current rock            
+            // Get chains from neighborings intersections        
             let chains = [];
-            for(let rock of neighboringIntersections){
+            for(let rock of neighbors){
                 if(chains.indexOf(rock.getChain()) == -1){
                     chains.push(rock.getChain());
                 }
             }
 
-            this.getRock();
-
-            // Add the rock to the chain
+            // CASE 1 : Add the rock to the chain
             if(chains.length == 1){
-                let chain = chains[0]
-                this.rock.setChain(chain);
-                this.chains[chain].push(currentRock);
+                var chain = chains[0]; // Set index of the chain
             }
 
-            // Join chains
+            // CASE 2 : Join chains
             else{
                 chains = chains.sort();
                 let joinChain = chains[0];
-                this.chains[joinChain].push(currentRock);
                 for(let chain of chains.reverse()){
                     if(chain != joinChain){
-                        for(let rock of this.chains[chain]){
+                        for(let rock of this.chains[chain].getRocks()){
                             this.tab[rock.x][rock.y].setChain(joinChain);
-                            this.chains[joinChain].push(rock);
+                            this.chains[joinChain].addRock(rock);
                         }   
-                        this.chains.splice(chain, 1);
+                        this.chains[chain].remove();
                     }
                 }
+
+                var chain = joinChain; // Set index of the chain
             }
         }
 
-        // Create new chain
+        // CASE 3 : Create new chain
         else{
-            let chain = this.chains.length;
-            this.rock.setChain(chain);
-            this.chains[chain] = [];
-            this.chains[chain].push(currentRock);
+            var chain = this.chains.length; // Set index of the chain
+            this.chains[chain] = new Chain(); // Create new chain object
         }
 
-        this.setRock();
-        console.log(this.chains);
+        // Add current rock to the chain
+        var rock = {
+            x: this.rock.x,
+            y: this.rock.y
+        };        
+        this.chains[chain].addRock(rock);
+        this.tab[this.x][this.y].setChain(chain);
+
     }
 
 
@@ -208,72 +204,27 @@ class Gameplay{
      *
      */  
     handleGoban(){
-/*
-        if(this.rock.touchEnnemyNeighbors()){
 
+        var neighbors = this.rock.getNeighboringIntersections(this.tab, 'ennemy');
+
+        if(neighbors.length != 0){
+            
+            // Get chains from neighborings intersections        
             let chains = [];
-
-            // Tiny chains (delete boublon)
-            for(let rock of this.rock.getEnemyNeighbors()){
-                if(this.cache.indexOf(this.rock) == -1){
-                    chains.push(this.rock.getChain());
-                }
-                else{
-                    this.cache.push(this.rock.getChain());
-                }
-            }   
-
-            console.log(chains);
-        }*/
-    }
-
-/*
-
-        // Chek if there are ennemies around the last rock placed
-        if(
-            this.tab[this.x][this.y - 1] == this.enemy ||
-            this.tab[this.x + 1][this.y] == this.enemy ||
-            this.tab[this.x][this.y + 1] == this.enemy ||
-            this.tab[this.x - 1][this.y] == this.enemy)
-        {
-
-            // Return the territory of the neighbors 
-            if(this.tab[this.x][this.y - 1] == this.enemy){
-                this.territory['top'] = new Territory(this.tab, this.enemy, this.x, this.y - 1);
-            }
-            if(this.tab[this.x + 1][this.y] == this.enemy){
-                this.territory['right'] = new Territory(this.tab, this.enemy, this.x + 1, this.y);
-            }
-            if(this.tab[this.x][this.y + 1] == this.enemy){
-                this.territory['bottom'] = new Territory(this.tab, this.enemy, this.x, this.y + 1);
-            }
-            if(this.tab[this.x - 1][this.y] == this.enemy){
-                this.territory['left'] = new Territory(this.tab, this.enemy, this.x - 1, this.y);
-            } 
-
-            // Tiny territories (delete boublon)
-            this.cache = [];
-            this.territories = [];
-            for(let i in this.territory){
-                let territory = this.territory[i];
-                if(this.cache.indexOf(JSON.stringify(territory.get())) == -1){
-                    this.territories.push(territory);
-                    this.cache.push(JSON.stringify(territory.get()));
+            for(let rock of neighbors){
+                if(chains.indexOf(rock.getChain()) == -1){
+                    chains.push(rock.getChain());
                 }
             }
 
-            // Verification of encirclement territories
-            for(let territory of this.territories){
-                // The territory is circled
-                if(territory.isDead()){
-
-                    // Deubg
-                    console.log('**');
-                    console.log(`Enemy territory circled by player ${this.player} !`);
-                    console.log(territory.get());
-
+            for(let chain of chains){
+                if(this.chains[chain].isDead(this.tab)){
+                    console.log('Dead');
+                    for(let rock of this.chains[chain].getRocks()){
+                        //this.tab[rock.x][rock.y].remove();
+                    }
                 }
             }
         }
-    }*/
+    }
 }
