@@ -166,7 +166,7 @@ gulp.task('sass', function(){
  */
 
 gulp.task('js', function () {
-   gulp.src([srcDir + jsDir + 'app/*.js', srcDir + jsDir + 'index.js'])
+   gulp.src([srcDir + jsDir + 'app/**/*.js', srcDir + jsDir + 'index.js'])
       .pipe(concat('index.js'))
       .pipe(browserify({
           transform: ['babelify'],

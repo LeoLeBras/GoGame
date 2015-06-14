@@ -1,3 +1,5 @@
+var rocks = [];
+
 class Rock{
 
 
@@ -14,11 +16,9 @@ class Rock{
         this.y = y;
         this.player = 0;
         this.color;
-
         this.cellSize = options['grid'].cellSize;
         this.rockSize = options['rock'].size;
         this.canvas = Sprint(options['gameplay'].element).dom[0].getContext('2d');
-
         this.chains;
 
     }
@@ -124,10 +124,10 @@ class Rock{
     /**
      * Get neighboring intersections
      *
-     * @param tab (array)
+     * @param player (string)
      * @return neighboring intersections (array)
      */  
-    getNeighboringIntersections(tab, player = 'all'){
+    getNeighboringIntersections(player = 'all'){
 
         this.neighboringIntersections = [];
         this.cache = [];
@@ -154,21 +154,19 @@ class Rock{
                     break;
             }
 
-            if(tab[x] != undefined && tab[x][y] != undefined){
-                let rock = tab[x][y];
+            if(rocks[x] != undefined && rocks[x][y] != undefined){
+                let rock = rocks[x][y];
                 if(rock.getPlayer() != 0){
                     this.cache.push(rock);
                 }
             }
         }
 
-        switch(player){
-            case 'current':
-                player = tab[this.x][this.y].getPlayer();
-                break;
-            case 'ennemy':
-                player = ((tab[this.x][this.y].getPlayer() + 2) % 2) + 1;
-                break;
+        if(player == 'curren'){
+            player = rocks[this.x][this.y].getPlayer();
+        }
+        else{
+            player = ((rocks[this.x][this.y].getPlayer() + 2) % 2) + 1;
         }
 
         if(player != 'all'){
@@ -234,5 +232,6 @@ class Rock{
     getChain(){  
         return this.chain;
     }
+
 
 }

@@ -1,3 +1,5 @@
+var players = [];
+
 class Player{
 
 
@@ -7,13 +9,9 @@ class Player{
      * @param name of the current player
      */   
     constructor(player){
-        switch(player){
-            case 'current': 
-                this.name = 1;
-                break;
-            case 'ennemy': 
-                this.name = 2;
-                break;
+        this.name = 1;
+        if(player == 'ennemy'){
+            this.name = 2;
         }
     }
 
@@ -21,7 +19,7 @@ class Player{
 
 
     /**
-     * Next player
+     * Switch to the next player
      *
      */  
     next(){

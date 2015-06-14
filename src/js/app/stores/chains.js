@@ -1,15 +1,19 @@
+var chains = [];
+
 class Chain{
 
 
     /**
      * Constructor
      *
-     * @param name of the current player
      */   
     constructor(){
+
         this.rocks = [];
+        this.border = [];
+        this.territory = [];
         this.state = 'alive';
-        this.borders = [];
+
     }
 
 
@@ -38,7 +42,7 @@ class Chain{
 
 
     /**
-     * Remove
+     * Remove a chain
      *
      */  
     remove(){
@@ -55,17 +59,21 @@ class Chain{
      *
      * @return array
      */ 
-    getBorders(rocks){
+    getBorders(param = 'objects'){
 
         var player = rocks[this.rocks[0].x][this.rocks[0].y].getPlayer();
 
         for(let rock of this.rocks){
             if(rocks[rock.x][rock.y].getNeighboringIntersections(rocks, 'current').length != 4){
-                this.borders.push(rock);
+                this.border.push(rock);
             }
         }
 
-        return this.borders.sort();
+        if(param == 'count'){
+            return this.border.length;
+        }
+
+        return this.border.sort();
 
     }
 
@@ -79,17 +87,13 @@ class Chain{
      *
      * @return true or false
      */ 
-    isDead(rocks){
-
-        this.getLiberties(rocks);
-
-        if(this.liberties == 0){
+    isDead(){
+        if(this.getLiberties() == 0){
             return true;
         }
         else{
             return false;
         }
-
     }
 
 
@@ -102,15 +106,13 @@ class Chain{
      *
      * @return this.liberties (number)
      */ 
-    getLiberties(rocks){
+    getLiberties(){
 
         // Get borders of the territory
         this.liberties = 0;
         
         for(let rock of this.getBorders(rocks)){
-            if(rocks[rock.x][rock.y].getNeighboringIntersections(rocks).length != 4){
-                this.liberties++;
-            }
+            //this.liberties += rocks[rock.x][rock.y].getLiberties();
         }
 
         console.log(this.liberties);

@@ -21,14 +21,13 @@ class Gameplay{
         this.player = new Player('current');
         this.ennemy = new Player('ennemy');
 
-        this.tab = [];
         this.chains = [];
         this.cache = [];
 
         for(this.x= 1; this.x <= this.grid ; this.x++){
-            this.tab[this.x] = [];
+            rocks[this.x] = [];
             for(this.y = 1; this.y <= this.grid ; this.y++){
-                this.tab[this.x][this.y] = new Rock(this.x, this.y);
+                rocks[this.x][this.y] = new Rock(this.x, this.y);
             }
         }
         
@@ -78,7 +77,7 @@ class Gameplay{
             this.getRock();
 
             // If the rock can be placed here, handle actions
-            if(this.rock.canPlay(this.player, this.tab)){
+            if(this.rock.canPlay(this.player)){
                 
                 // Debug
                 console.log('****');
@@ -107,11 +106,11 @@ class Gameplay{
 
 
     /**
-     * Save this.rock in this.tab
+     * Save this.rock in rocks
      *
      */  
     setRock(){
-        this.tab[this.x][this.y] = this.rock;
+        rocks[this.x][this.y] = this.rock;
     }
 
 
@@ -119,11 +118,11 @@ class Gameplay{
 
 
     /**
-     * Use this.rock instead of this.tab[this.x][this.y]
+     * Use this.rock instead of rocks[this.x][this.y]
      *
      */  
     getRock(){
-        this.rock = this.tab[this.x][this.y];
+        this.rock = rocks[this.x][this.y];
     }
 
 
@@ -144,7 +143,7 @@ class Gameplay{
     handleChains(){
 
         // Get neighbors
-        var neighbors = this.rock.getNeighboringIntersections(this.tab, 'current');
+        var neighbors = this.rock.getNeighboringIntersections('current');
 
         if(neighbors.length != 0){
             
@@ -168,7 +167,7 @@ class Gameplay{
                 for(let chain of chains.reverse()){
                     if(chain != joinChain){
                         for(let rock of this.chains[chain].getRocks()){
-                            this.tab[rock.x][rock.y].setChain(joinChain);
+                            rocks[rock.x][rock.y].setChain(joinChain);
                             this.chains[joinChain].addRock(rock);
                         }   
                         this.chains[chain].remove();
@@ -191,7 +190,7 @@ class Gameplay{
             y: this.rock.y
         };        
         this.chains[chain].addRock(rock);
-        this.tab[this.x][this.y].setChain(chain);
+        rocks[this.x][this.y].setChain(chain);
 
     }
 
@@ -205,7 +204,7 @@ class Gameplay{
      */  
     handleGoban(){
 
-        var neighbors = this.rock.getNeighboringIntersections(this.tab, 'ennemy');
+        var neighbors = this.rock.getNeighboringIntersections('ennemy');
 
         if(neighbors.length != 0){
             
