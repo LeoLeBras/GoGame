@@ -8,12 +8,10 @@ class Chain{
      *
      */   
     constructor(){
-
         this.rocks = [];
         this.border = [];
         this.territory = [];
         this.state = 'alive';
-
     }
 
 
@@ -64,7 +62,7 @@ class Chain{
         var player = rocks[this.rocks[0].x][this.rocks[0].y].getPlayer();
 
         for(let rock of this.rocks){
-            if(rocks[rock.x][rock.y].getNeighboringIntersections(rocks, 'current').length != 4){
+            if(rocks[rock.x][rock.y].getNeighboringRocks(rocks, 'current').length != 4){
                 this.border.push(rock);
             }
         }
@@ -83,30 +81,11 @@ class Chain{
 
 
     /**
-     * Check if the territory is dead
-     *
-     * @return true or false
-     */ 
-    isDead(){
-        if(this.getLiberties() == 0){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-
-
-
-
-
-    /**
      * Get liberties of the territories
      *
      * @return this.liberties (number)
      */ 
-    getLiberties(){
+    getLiberties(param = 'objects'){
 
         // Get borders of the territory
         this.liberties = 0;

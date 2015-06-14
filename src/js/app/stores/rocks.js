@@ -35,57 +35,6 @@ class Rock{
 
 
     /**
-     * Check if we are in a case of suicide
-     *
-     */  
-    checkSuicide(){
-        return false;
-    }
-
-
-
-
-
-
-    /**
-     * Check if we are in a case of KO
-     *
-     */  
-    checkKO(){
-        return false;
-    }
-
-
-
-
-
-    /**
-     * Check if the player can play here
-     *
-     */  
-    canPlay(player, tab){
-
-        if(!this.checkSuicide() && !this.checkKO() && this.getPlayer() == 0){
-            return true;
-        }
-        else{
-            return false;
-        }
-
-    }
-
-
-
-
-    
-    /* ------------------------------------- */
-
-
-
-
-
-
-    /**
      * Create a rock
      *
      */  
@@ -122,14 +71,14 @@ class Rock{
 
 
     /**
-     * Get neighboring intersections
+     * Get neighboring rocks
      *
-     * @param player (string)
-     * @return neighboring intersections (array)
+     * @param select (string)
+     * @return neighboring rocks (array)
      */  
-    getNeighboringIntersections(player = 'all'){
+    getNeighboringRocks(select = 'all'){
 
-        this.neighboringIntersections = [];
+        this.neighboringRocks = [];
         this.cache = [];
 
         for(let i=1 ; i <= 4 ; i++){
@@ -162,26 +111,24 @@ class Rock{
             }
         }
 
-        if(player == 'curren'){
-            player = rocks[this.x][this.y].getPlayer();
-        }
-        else{
-            player = ((rocks[this.x][this.y].getPlayer() + 2) % 2) + 1;
-        }
+        if(select != 'all'){
+            let player = ((rocks[this.x][this.y].getPlayer() + 2) % 2) + 1;
+            if(select == 'current'){
+                player = rocks[this.x][this.y].getPlayer();
+            }
 
-        if(player != 'all'){
             for(let i in this.cache){
                 let rock = this.cache[i];
                 if(rock.getPlayer() == player){
-                    this.neighboringIntersections.push(rock);
+                    this.neighboringRocks.push(rock);
                 }
             }
         }
         else{
-            this.neighboringIntersections = this.cache;
+            this.neighboringRocks = this.cache;
         }
 
-        return this.neighboringIntersections.sort();
+        return this.neighboringRocks.sort();
 
     }
 

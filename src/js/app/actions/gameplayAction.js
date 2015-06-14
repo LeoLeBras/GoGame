@@ -34,6 +34,11 @@ class Gameplay{
     }
 
 
+switchPlayers(){
+
+            this.player.next();
+            this.ennemy.next();
+}
 
 
     
@@ -72,57 +77,19 @@ class Gameplay{
         this.x = Math.floor((e.layerX + this.cellSize / 2) / this.cellSize);
         this.y = Math.floor((e.layerY + this.cellSize / 2) / this.cellSize);
 
-        // If we are on the goban
-        if(1 <= this.x && this.x <= this.grid && 1 <= this.y && this.y <= this.grid ){
-            this.getRock();
+        // If the player can play here
+        if(1 <= this.x && this.x <= this.grid && 1 <= this.y && this.y <= this.grid && rocks[this.x][this.y].getPlayer() == 0){
 
-            // If the rock can be placed here, handle actions
-            if(this.rock.canPlay(this.player)){
-                
-                // Debug
-                console.log('****');
-                console.log(`Player ${this.player.get()} en ${this.x};${this.y}`);
+            // Debug
+            console.log('****');
+            console.log(`Player ${this.player.get()} en ${this.x};${this.y}`);
 
-                this.rock.create(this.player);
-                this.setRock();
-                this.handleChains();
-                this.handleGoban();
-                this.player.next();
-                this.ennemy.next();
+            rocks[this.x][this.y].create(this.player);
+            this.handleChains();
+            this.handleGoban();
+            this.switchPlayers();
 
-            }
         }
-    }
-
-
-
-
-    
-    /* ------------------------------------- */
-
-
-
-
-
-
-    /**
-     * Save this.rock in rocks
-     *
-     */  
-    setRock(){
-        rocks[this.x][this.y] = this.rock;
-    }
-
-
-
-
-
-    /**
-     * Use this.rock instead of rocks[this.x][this.y]
-     *
-     */  
-    getRock(){
-        this.rock = rocks[this.x][this.y];
     }
 
 
@@ -143,7 +110,7 @@ class Gameplay{
     handleChains(){
 
         // Get neighbors
-        var neighbors = this.rock.getNeighboringIntersections('current');
+        var neighbors = rocks[this.x][this.y].getNeighboringRocks('current');
 
         if(neighbors.length != 0){
             
@@ -186,8 +153,8 @@ class Gameplay{
 
         // Add current rock to the chain
         var rock = {
-            x: this.rock.x,
-            y: this.rock.y
+            x: this.x,
+            y: this.y
         };        
         this.chains[chain].addRock(rock);
         rocks[this.x][this.y].setChain(chain);
@@ -199,12 +166,12 @@ class Gameplay{
 
 
     /**
-     * Handle the goban with the new territories
+     * Handle the goban with the new chain
      *
      */  
     handleGoban(){
 
-        var neighbors = this.rock.getNeighboringIntersections('ennemy');
+        var neighbors = rocks[this.x][this.y].getNeighboringRocks('ennemy');
 
         if(neighbors.length != 0){
             
@@ -217,7 +184,7 @@ class Gameplay{
             }
 
             for(let chain of chains){
-                if(this.chains[chain].isDead(this.tab)){
+                if(this.chains[chain].getLiberties() == 0){
                     console.log('Dead');
                     for(let rock of this.chains[chain].getRocks()){
                         //this.tab[rock.x][rock.y].remove();

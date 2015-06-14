@@ -1,4 +1,4 @@
-var players = [];
+var player = 'dd';
 
 class Player{
 
@@ -34,7 +34,7 @@ class Player{
      *
      * @return this.name
      */  
-    get(){
+    get(select = 'current'){
     	return this.name;
     }
 

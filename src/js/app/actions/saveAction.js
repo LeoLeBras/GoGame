@@ -1,0 +1,6 @@
+class Save{
+
+    constructor(){
+    }
+
+}

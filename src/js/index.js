@@ -34,5 +34,4 @@ var options = {
     }
 };
 
-var GoGame = new Game();
-GoGame.run();
+GoGame();
