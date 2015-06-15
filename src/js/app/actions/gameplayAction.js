@@ -43,8 +43,28 @@ class GameplayActions{
      */  
     checkSuicide(){
 
-        else{
-            let neighbors = this.getRock().getNeighboringRocks(this.player.get());
+        let neighbors = this.getRock().getNeighboringRocks(this.ennemy.get());
+        this.cache = [];
+
+        for(let neighbor of neighbors){
+            if(this.cache.indexOf(neighbor.getChain()) == -1){
+                this.cache.push(neighbor.getChain());
+            }
+        }
+
+        let count = 0;
+
+        for(let item of this.cache){
+            if(chains.select(item).getLiberties() == 1){
+                let rock = chains.select(this.cache[0]).getLiberties('objects')[0];
+                if(rock.x == this.x && rock.y == this.y){
+                    count++;
+                }
+            }
+        }
+
+        if(count == 0){
+            neighbors = this.getRock().getNeighboringRocks(this.player.get());
             this.cache = [];
 
             for(let neighbor of neighbors){
@@ -54,7 +74,7 @@ class GameplayActions{
             }
 
             if(this.cache.length !=  0){
-                let count = 0;
+                count = 0;
                 for(let chain of this.cache){
                     if(chains.select(chain).getLiberties() == 1){
                         count++;
