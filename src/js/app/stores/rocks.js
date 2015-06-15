@@ -86,7 +86,7 @@ class Rock{
      *
      */  
     add(player){
-        this.player = player.get();
+        this.player = player;
     }
 
 

@@ -18,9 +18,6 @@ class GameplayActions{
         this.rockPlayer1 = options['rock'].player1;
         this.rockPlayer2 = options['rock'].player2;
 
-        this.player = new Player('current');
-        this.ennemy = new Player('ennemy');
-
         this.cache = [];
 
         for(this.x= 1; this.x <= this.grid ; this.x++){
@@ -38,13 +35,25 @@ class GameplayActions{
 
 
     /**
+     * Check KO
+     *
+     */  
+    checkKO(){
+        return false;
+    }
+
+
+
+
+
+    /**
      * Check if the player is on a case on suicide
      *
      */  
     checkSuicide(){
 
         let response = false;
-        let neighbors = this.getRock().getNeighboringRocks(this.ennemy.get());
+        let neighbors = this.getRock().getNeighboringRocks(players.getAdversary().getName());
         this.cache = [];
 
         for(let neighbor of neighbors){
@@ -53,11 +62,19 @@ class GameplayActions{
             }
         }
 
+
         let count = 0;
 
         for(let item of this.cache){
             if(chains.select(item).getLiberties() == 1){
+                console.log(chains.select(item).getLiberties());
                 let rock = chains.select(this.cache[0]).getLiberties('objects')[0];
+                console.log({
+                    rockX: rock.x,
+                    rockY: rock.y,
+                    thisX: this.x, 
+                    thixY: this.y
+                });
                 if(rock.x == this.x && rock.y == this.y){
                     count++;
                 }
@@ -65,7 +82,7 @@ class GameplayActions{
         }
 
         if(count == 0){
-            neighbors = this.getRock().getNeighboringRocks(this.player.get());
+            neighbors = this.getRock().getNeighboringRocks(players.getCurrent().getName());
             this.cache = [];
 
             for(let neighbor of neighbors){
@@ -84,19 +101,22 @@ class GameplayActions{
                 if(count == this.cache.length){
                     let rock = chains.select(this.cache[0]).getLiberties('objects')[0];
                     if(rock.x == this.x && rock.y == this.y &&
-                       rock.getNeighboringRocks(this.ennemy.get()).length == (4 - count)){
+                       rock.getNeighboringRocks(players.getAdversary().getName()).length == (4 - count)){
                         response = true;
+                        console.log('CASE 2');
                     }   
                 }
+            }        
+            else if(this.getRock().getNeighboringRocks(players.getAdversary().getName()).length == 4){
+                response = true;
+                console.log('CASE 1');
             }
         }
-        if(this.getRock().getNeighboringRocks(this.ennemy.get()).length == 4){
-            response = true;
-        }
+
 
         if(response){
             console.log('****');                        
-            console.log(`Case of suicide for player ${this.player.get()} on ${this.x};${this.y}`);
+            console.log(`Case of suicide for player ${players.getCurrent().getName()} on ${this.x};${this.y}`);
         }
 
         return response;
@@ -111,9 +131,52 @@ class GameplayActions{
      * Switch players
      *
      */  
-    switchPlayers(){
-        this.player.next();
-        this.ennemy.next();
+    switchPlayers(origin = 'dispatcher'){
+        
+        if(origin == 'user'){
+            players.getCurrent().updateHistoric({
+                type: 'next',
+            });
+        }
+
+        players.switch();
+
+    }
+
+
+
+
+
+
+    /**
+     * Check if the game is finised
+     *
+     * @return boleenn
+     */  
+    isFinished(action = null){
+
+        let response = false;
+
+        if(action != null &&
+           action.type == 'next' &&
+           players.getAdversary().getHistoric('last').type == 'next'){
+            response = true;
+        }
+        return response;
+
+    }
+
+
+
+
+
+
+    /**
+     * Game Over
+     *
+     */  
+    gameOver(){
+        alert('Game Over ! :/');
     }
 
 
@@ -158,18 +221,26 @@ class GameplayActions{
         this.y = Math.floor((e.layerY + this.cellSize / 2) / this.cellSize);
 
         // If the player can play here
-        if(1 <= this.x && this.x <= this.grid && 1 <= this.y && this.y <= this.grid 
-            && this.getRock().getPlayer() == 0
-            && !this.checkSuicide()){
+        if(1 <= this.x && this.x <= this.grid && 1 <= this.y && this.y <= this.grid &&
+           this.getRock().getPlayer() == 0 &&
+           !this.checkSuicide() &&
+           !this.checkKO()){
 
             // Debug
             console.log('****');
-            console.log(`Player ${this.player.get()} en ${this.x};${this.y}`);
+            console.log(`Player ${players.getCurrent().getName()} on ${this.x};${this.y}`);
 
-            this.getRock().add(this.player);
+            this.getRock().add(players.getCurrent().getName());
+            players.getCurrent().updateHistoric({
+                type: 'add-rock',
+                params: {
+                    x: this.x,
+                    y: this.y
+                }
+            });
 
             let color = options['rock'].player1;
-            if(this.player.get() == 2){
+            if(players.getCurrent().getName() == 2){
                 color =  options['rock'].player2;
             }
 
