@@ -1,4 +1,50 @@
-var rocks = [];
+class Rocks{
+
+    /**
+     * Constructor
+     *
+     */   
+    constructor(){
+        this.rocks = [];
+    }
+
+
+
+
+
+
+    /**
+     * Add a rock
+     *
+     * @param rock (object) {x: x, y:y}
+     */  
+    add(rock){
+        if(this.rocks[rock.x] == undefined){
+            this.rocks[rock.x] = [];
+        }
+        this.rocks[rock.x][rock.y] = new Rock(rock);
+    }
+
+
+
+
+
+
+    /**
+     * Select a rock
+     *
+     * @param rock (object) {x: x, y:y}
+     * @return rock object selected
+     */  
+    select(rock){
+        if(this.rocks[rock.x] != undefined && this.rocks[rock.x][rock.y] != undefined){
+            return this.rocks[rock.x][rock.y];
+        }
+        return false;
+    }
+
+
+}
 
 class Rock{
 
@@ -9,25 +55,12 @@ class Rock{
      *
      * @param x and y (number)
      */   
-    constructor(x, y){
-
+    constructor(rock){
         this.chain = 0;
-        this.x = x;
-        this.y = y;
+        this.x = rock.x;
+        this.y = rock.y;
         this.player = 0;
-        this.color;
-        this.cellSize = options['grid'].cellSize;
-        this.rockSize = options['rock'].size;
-        this.canvas = Sprint(options['gameplay'].element).dom[0].getContext('2d');
-        this.chains;
-
     }
-
-
-
-
-    
-    /* ------------------------------------- */
 
 
 
@@ -35,35 +68,12 @@ class Rock{
 
 
     /**
-     * Create a rock
+     * Add a rock
      *
      */  
-    create(player){
-
-        // Set player
+    add(player){
         this.player = player.get();
-
-        // Set color
-        this.color = options['rock'].player1;
-        if(this.player == 2){
-            this.color =  options['rock'].player2;
-        }
-
-        // Draw
-        var c = this.canvas;
-        c.beginPath();
-        c.arc(this.x * this.cellSize, this.y * this.cellSize, this.rockSize / 2, 0, 2 * Math.PI, false);
-        c.closePath();
-        c.fillStyle = this.color;
-        c.fill();
-        
     }
-
-
-
-
-    
-    /* ------------------------------------- */
 
 
 
@@ -103,18 +113,17 @@ class Rock{
                     break;
             }
 
-            if(rocks[x] != undefined && rocks[x][y] != undefined){
-                let rock = rocks[x][y];
-                if(rock.getPlayer() != 0){
-                    this.cache.push(rock);
-                }
+            let rock = rocks.select({x, y});
+
+            if(rock && rock.getPlayer() != 0){
+                this.cache.push(rock);
             }
         }
 
         if(select != 'all'){
-            let player = ((rocks[this.x][this.y].getPlayer() + 2) % 2) + 1;
+            let player = ((this.getPlayer() + 2) % 2) + 1;
             if(select == 'current'){
-                player = rocks[this.x][this.y].getPlayer();
+                player = this.getPlayer();
             }
 
             for(let i in this.cache){
@@ -135,8 +144,16 @@ class Rock{
 
 
 
-    
-    /* ------------------------------------- */
+
+
+    /**
+     * Get liberties
+     *
+     * @return liberties
+     */  
+    getLiberties(){  
+        return (4 - this.getNeighboringRocks().length);
+    }
 
 
 
@@ -182,3 +199,5 @@ class Rock{
 
 
 }
+
+var rocks = new Rocks();

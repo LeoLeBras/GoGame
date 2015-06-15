@@ -2,20 +2,20 @@ class GameplayDispatcher{
 	
     constructor(){
     	this.$goban = Sprint(options['gameplay'].element);
-    	var Gameplay = new GameplayActions();
+    	this.Gameplay = new GameplayActions();
     	this.listenner();
     }
 
 
     listenner(){
 
-    	Sprint(this.$goban).on('click', function(e){
-            if(Gameplay.click(e)){
-            	Gameplay.handleChain();
-            	Gameplay.handleGoban();
-            	Gameplay.switchPlayers();
+    	Sprint(this.$goban).on('click', (e) =>{
+            if(this.Gameplay.addRock(e)){
+            	this.Gameplay.updateChains();
+            	this.Gameplay.updateGoban();
+            	this.Gameplay.switchPlayers();
             }
-        }.bind(this));
+        }, this);
 
     }
 

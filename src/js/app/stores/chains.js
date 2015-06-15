@@ -1,4 +1,58 @@
-var chains = [];
+class Chains{
+
+    /**
+     * Constructor
+     *
+     */   
+    constructor(){
+        this.chains = [];
+    }
+
+
+
+
+
+
+    /**
+     * Add a chain
+     *
+     * @param chain (string)
+     */  
+    add(chain){
+        this.chains[chain] = new Chain(chain);
+    }
+
+
+
+
+
+
+    /**
+     * Select a chain
+     *
+     * @param chain (chain)
+     * @return chain object selected
+     */  
+    select(chain){
+        return this.chains[chain];
+    }
+
+
+
+
+
+
+    /**
+     * Count chains
+     *
+     * @return this.chains.length
+     */  
+    count(){
+        return this.chains.length;
+    }
+
+
+}
 
 class Chain{
 
@@ -7,10 +61,11 @@ class Chain{
      * Constructor
      *
      */   
-    constructor(){
+    constructor(name){
         this.rocks = [];
         this.border = [];
         this.territory = [];
+        this.name = name;
         this.state = 'alive';
     }
 
@@ -22,7 +77,7 @@ class Chain{
      *
      */  
     addRock(rock){
-    	this.rocks.push(rock);
+        this.rocks.push(rock);
     }
 
 
@@ -59,10 +114,8 @@ class Chain{
      */ 
     getBorders(param = 'objects'){
 
-        var player = rocks[this.rocks[0].x][this.rocks[0].y].getPlayer();
-
         for(let rock of this.rocks){
-            if(rocks[rock.x][rock.y].getNeighboringRocks(rocks, 'current').length != 4){
+            if(rocks.select({x: rock.x, y: rock.y}).getNeighboringRocks(rocks, 'current').length != 4){
                 this.border.push(rock);
             }
         }
@@ -87,17 +140,13 @@ class Chain{
      */ 
     getLiberties(param = 'objects'){
 
-        // Get borders of the territory
         this.liberties = 0;
-        
         for(let rock of this.getBorders(rocks)){
-            //this.liberties += rocks[rock.x][rock.y].getLiberties();
+            this.liberties += rocks.select(rock).getLiberties();
         }
-
-        console.log(this.liberties);
-
         return this.liberties;
 
     }
-
 }
+
+var chains = new Chains();

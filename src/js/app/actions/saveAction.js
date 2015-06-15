@@ -1,6 +1,11 @@
 class Save{
 
     constructor(){
+    	
+    }
+
+    update(){
+
     }
 
 }
