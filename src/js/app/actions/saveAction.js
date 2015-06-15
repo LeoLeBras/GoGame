@@ -1,11 +1,10 @@
-class Save{
+class SaveActions{
 
     constructor(){
-    	
     }
 
     update(){
-
     }
 
 }
+

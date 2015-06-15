@@ -38,6 +38,48 @@ class GameplayActions{
 
 
     /**
+     * Check if the player is on a case on suicide
+     *
+     */  
+    checkSuicide(){
+
+        else{
+            let neighbors = this.getRock().getNeighboringRocks(this.player.get());
+            this.cache = [];
+
+            for(let neighbor of neighbors){
+                if(this.cache.indexOf(neighbor.getChain()) == -1){
+                    this.cache.push(neighbor.getChain());
+                }
+            }
+
+            if(this.cache.length !=  0){
+                let count = 0;
+                for(let chain of this.cache){
+                    if(chains.select(chain).getLiberties() == 1){
+                        count++;
+                    }
+                }
+                if(count == this.cache.length){
+                    let rock = chains.select(this.cache[0]).getLiberties('objects')[0];
+                    if(rock.x == this.x && rock.y == this.y &&
+                       rock.getNeighboringRocks(this.ennemy.get()).length == (4 - count)){
+                        return true;
+                    }   
+                }
+            }
+        }
+
+
+        return false;
+
+    }
+
+
+
+
+
+    /**
      * Switch players
      *
      */  
@@ -88,7 +130,9 @@ class GameplayActions{
         this.y = Math.floor((e.layerY + this.cellSize / 2) / this.cellSize);
 
         // If the player can play here
-        if(1 <= this.x && this.x <= this.grid && 1 <= this.y && this.y <= this.grid && this.getRock().getPlayer() == 0){
+        if(1 <= this.x && this.x <= this.grid && 1 <= this.y && this.y <= this.grid 
+            && this.getRock().getPlayer() == 0
+            && !this.checkSuicide()){
 
             // Debug
             console.log('****');
@@ -151,8 +195,8 @@ class GameplayActions{
                     if(chain != joinChain){
                         for(let rock of chains.select(chain).getRocks()){
                             rocks.select(rock).setChain(joinChain);
-                            chains.select(joinChain).addRock(rock);
                         }   
+                        chains.join(joinChain, chain);
                         chains.select(chain).remove();
                     }
                 }
@@ -187,7 +231,6 @@ class GameplayActions{
 
         if(neighbors.length != 0){
             
-            // Get chains from neighborings intersections        
             let chainsOfNeighbors = [];
             for(let rock of neighbors){
                 if(chainsOfNeighbors.indexOf(rock.getChain()) == -1){
@@ -199,7 +242,10 @@ class GameplayActions{
                 if(chains.select(chain).getLiberties() == 0){
                     console.log(`Remove chain ${chain}`);
                     for(let rock of chains.select(chain).getRocks()){
-                        //this.tab[rock.x][rock.y].remove();
+                        let x = rock.x * this.cellSize - 1 - this.rockSize / 2;
+                        let y = rock.y * this.cellSize - 1 - this.rockSize / 2;
+                        this.canvas.clearRect(x,y,this.rockSize + 2, this.rockSize + 2);
+                        rocks.select(rock).remove();
                     }
                 }
             }

@@ -3,6 +3,7 @@ class GameplayDispatcher{
     constructor(){
     	this.$goban = Sprint(options['gameplay'].element);
     	this.Gameplay = new GameplayActions();
+        this.Save = new SaveActions();
     	this.listenner();
     }
 
@@ -13,7 +14,8 @@ class GameplayDispatcher{
             if(this.Gameplay.addRock(e)){
             	this.Gameplay.updateChains();
             	this.Gameplay.updateGoban();
-            	this.Gameplay.switchPlayers();
+                this.Save.update();
+                this.Gameplay.switchPlayers();
             }
         }, this);
 

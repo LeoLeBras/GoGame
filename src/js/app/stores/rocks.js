@@ -31,6 +31,20 @@ class Rocks{
 
 
     /**
+     * Get all rocks
+     *
+     * @return this.rocks
+     */  
+    get(){
+        return this.rocks;
+    }
+
+
+
+
+
+
+    /**
      * Select a rock
      *
      * @param rock (object) {x: x, y:y}
@@ -81,6 +95,19 @@ class Rock{
 
 
     /**
+     * Remove a rock
+     *
+     */  
+    remove(player){
+        this.player = 0;
+    }
+
+
+
+
+
+
+    /**
      * Get neighboring rocks
      *
      * @param select (string)
@@ -115,15 +142,26 @@ class Rock{
 
             let rock = rocks.select({x, y});
 
-            if(rock && rock.getPlayer() != 0){
-                this.cache.push(rock);
+            if(select != 'empty'){
+                if(rock && rock.getPlayer() != 0){
+                    this.cache.push(rock);
+                }
+            }
+            else{
+                if(rock && rock.getPlayer() == 0){
+                    this.cache.push(rock);
+                }
             }
         }
 
-        if(select != 'all'){
-            let player = ((this.getPlayer() + 2) % 2) + 1;
-            if(select == 'current'){
-                player = this.getPlayer();
+        if(select != 'all' && select != 'empty'){
+
+            let player = select;
+            if(typeof(select) == 'string'){
+                player = ((this.getPlayer() + 2) % 2) + 1;
+                if(select == 'current'){
+                    player = this.getPlayer();
+                }
             }
 
             for(let i in this.cache){
@@ -151,8 +189,14 @@ class Rock{
      *
      * @return liberties
      */  
-    getLiberties(){  
-        return (4 - this.getNeighboringRocks().length);
+    getLiberties(param = 'count'){  
+
+        let neighbors = this.getNeighboringRocks('empty');
+        if(param == 'count'){
+            return neighbors.length;
+        }
+        return neighbors;
+
     }
 
 

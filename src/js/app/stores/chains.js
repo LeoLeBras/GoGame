@@ -43,6 +43,31 @@ class Chains{
 
 
     /**
+     * Get all chains
+     *
+     * @return this.chains
+     */  
+    get(){
+        return this.chains;
+    }
+
+
+
+
+    /**
+     * Join 2 chains
+     *
+     */  
+    join(joinChain, chain){
+        this.chains[joinChain].rocks.push(...this.chains[chain].rocks);
+    }
+
+
+
+
+
+
+    /**
      * Count chains
      *
      * @return this.chains.length
@@ -114,6 +139,8 @@ class Chain{
      */ 
     getBorders(param = 'objects'){
 
+        this.border = [];
+
         for(let rock of this.rocks){
             if(rocks.select({x: rock.x, y: rock.y}).getNeighboringRocks(rocks, 'current').length != 4){
                 this.border.push(rock);
@@ -138,12 +165,16 @@ class Chain{
      *
      * @return this.liberties (number)
      */ 
-    getLiberties(param = 'objects'){
+    getLiberties(param = 'count'){
 
-        this.liberties = 0;
+        this.liberties = [];
         for(let rock of this.getBorders(rocks)){
-            this.liberties += rocks.select(rock).getLiberties();
-        }
+            this.liberties.push(...rocks.select(rock).getLiberties('objects'));
+        }     
+
+        if(param == 'count'){
+            return this.liberties.length;
+        }    
         return this.liberties;
 
     }
