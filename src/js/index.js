@@ -31,6 +31,9 @@ var options = {
         size: 20,
         player1: 'grey',
         player2: 'black'
+    },
+    control:{
+        next: '.Game_control_next'
     }
 };
 

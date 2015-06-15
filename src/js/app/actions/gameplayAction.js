@@ -43,6 +43,7 @@ class GameplayActions{
      */  
     checkSuicide(){
 
+        let response = false;
         let neighbors = this.getRock().getNeighboringRocks(this.ennemy.get());
         this.cache = [];
 
@@ -84,14 +85,21 @@ class GameplayActions{
                     let rock = chains.select(this.cache[0]).getLiberties('objects')[0];
                     if(rock.x == this.x && rock.y == this.y &&
                        rock.getNeighboringRocks(this.ennemy.get()).length == (4 - count)){
-                        return true;
+                        response = true;
                     }   
                 }
             }
         }
+        if(this.getRock().getNeighboringRocks(this.ennemy.get()).length == 4){
+            response = true;
+        }
 
+        if(response){
+            console.log('****');                        
+            console.log(`Case of suicide for player ${this.player.get()} on ${this.x};${this.y}`);
+        }
 
-        return false;
+        return response;
 
     }
 
