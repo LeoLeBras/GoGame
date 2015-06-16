@@ -38,8 +38,22 @@ class GameplayActions{
      * Check KO
      *
      */  
-    checkKO(){
-        return false;
+    checkKO(position){
+
+        let item = players.getCurrent().getHistoric('last');
+        let response = false;
+
+        if(item.type == 'add-rock' &&
+           item.params.x == position.x &&
+           item.params.y == position.y){
+            response = true;
+        }
+
+        if(response){
+            console.log(`Case of KO for player ${players.getCurrent().getName()} on ${this.x};${this.y}`);
+        }
+
+        return response;
     }
 
 
@@ -62,19 +76,11 @@ class GameplayActions{
             }
         }
 
-
         let count = 0;
 
         for(let item of this.cache){
             if(chains.select(item).getLiberties() == 1){
-                console.log(chains.select(item).getLiberties());
-                let rock = chains.select(this.cache[0]).getLiberties('objects')[0];
-                console.log({
-                    rockX: rock.x,
-                    rockY: rock.y,
-                    thisX: this.x, 
-                    thixY: this.y
-                });
+                let rock = chains.select(item).getLiberties('objects')[0];
                 if(rock.x == this.x && rock.y == this.y){
                     count++;
                 }
@@ -98,18 +104,17 @@ class GameplayActions{
                         count++;
                     }
                 }
+
                 if(count == this.cache.length){
                     let rock = chains.select(this.cache[0]).getLiberties('objects')[0];
                     if(rock.x == this.x && rock.y == this.y &&
-                       rock.getNeighboringRocks(players.getAdversary().getName()).length == (4 - count)){
+                       rock.getNeighboringRocks().length == 4){
                         response = true;
-                        console.log('CASE 2');
                     }   
                 }
             }        
             else if(this.getRock().getNeighboringRocks(players.getAdversary().getName()).length == 4){
                 response = true;
-                console.log('CASE 1');
             }
         }
 
@@ -224,7 +229,10 @@ class GameplayActions{
         if(1 <= this.x && this.x <= this.grid && 1 <= this.y && this.y <= this.grid &&
            this.getRock().getPlayer() == 0 &&
            !this.checkSuicide() &&
-           !this.checkKO()){
+           !this.checkKO({
+               x: this.x,
+               y: this.y
+           })){
 
             // Debug
             console.log('****');

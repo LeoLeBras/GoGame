@@ -168,8 +168,18 @@ class Chain{
     getLiberties(param = 'count'){
 
         this.liberties = [];
+        this.cache = [];
+        let cache = '';
+
         for(let rock of this.getBorders(rocks)){
-            this.liberties.push(...rocks.select(rock).getLiberties('objects'));
+
+            for(let object of rocks.select(rock).getLiberties('objects')){
+                cache = `${object.x};${object.y}`
+                if(this.cache.indexOf(cache) == -1){
+                    this.liberties.push(object);
+                    this.cache.push(cache);
+                }
+            }
         }     
 
         if(param == 'count'){
