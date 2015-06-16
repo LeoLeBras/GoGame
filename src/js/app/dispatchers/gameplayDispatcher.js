@@ -2,9 +2,11 @@ class GameplayDispatcher{
 	
     constructor(){
         this.$goban = Sprint(options['gameplay'].element);
-    	this.$next = Sprint(options['control'].next);
+        this.$next = Sprint(options['control'].next);
+    	this.$stop = Sprint(options['control'].stop);
     	this.Gameplay = new GameplayActions();
         this.Save = new SaveActions();
+        this.Score = new ScoreActions();
     	this.listenner();
     }
 
@@ -29,7 +31,13 @@ class GameplayDispatcher{
             }
             else{
                 this.Gameplay.gameOver();
+                this.Score.get();
             }
+        });
+
+        Sprint(this.$stop).on('click', () => {
+            this.Gameplay.gameOver();
+            this.Score.get();
         });
 
     }

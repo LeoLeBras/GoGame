@@ -50,6 +50,7 @@ class GameplayActions{
         }
 
         if(response){
+            console.log('****');
             console.log(`Case of KO for player ${players.getCurrent().getName()} on ${this.x};${this.y}`);
         }
 

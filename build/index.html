@@ -21,10 +21,13 @@
                 position: absolute;
                 cursor: pointer;
             }
-
-            .Game_control_next{
+        
+            .Game_control{
                 position: absolute;
                 left:10px; top:10px;
+            }
+
+            .Game_control_next, .Game_controle_stop{
                 text-transform: uppercase;
                 cursor: pointer;
             }
@@ -37,7 +40,10 @@
                 <canvas class="Game_goban_grid"></canvas>
                 <canvas class="Game_goban_gameplay"></canvas>
             </div>
-            <a role="button" class="Game_control_next">Passer mon tour</a>
+            <div class="Game_control">
+                <a role="button" class="Game_control_next">Passer mon tour</a><br>
+                <a role="button" class="Game_controle_stop">Abandonner</a>
+            </div>
         </div>
 
         <!-- build:js js/vendors.js -->

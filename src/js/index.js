@@ -20,7 +20,7 @@ var options = {
         element: '.Game_goban_gameplay'
     },
     grid: {
-        nbre: '19',
+        nbre: 13,
         element: '.Game_goban_grid',
         cellSize: 40,
         backgroundColor: 'white',
@@ -33,7 +33,8 @@ var options = {
         player2: 'black'
     },
     control:{
-        next: '.Game_control_next'
+        next: '.Game_control_next',
+        stop: '.Game_controle_stop'
     }
 };
 
