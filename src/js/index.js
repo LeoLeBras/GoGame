@@ -38,4 +38,4 @@ var options = {
     }
 };
 
-GoGame();
+GoGame(options);

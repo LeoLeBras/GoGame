@@ -1,5 +1,6 @@
 class Rocks{
 
+
     /**
      * Constructor
      *
@@ -12,19 +13,18 @@ class Rocks{
 
 
 
-
     /**
-     * Add a rock
+     * Select a rock
      *
      * @param rock (object) {x: x, y:y}
+     * @return rock object selected ()
      */  
-    add(rock){
-        if(this.rocks[rock.x] == undefined){
-            this.rocks[rock.x] = [];
+    select(rock){
+        if(this.rocks[rock.x] != undefined && this.rocks[rock.x][rock.y] != undefined){
+            return this.rocks[rock.x][rock.y];
         }
-        this.rocks[rock.x][rock.y] = new Rock(rock);
+        return false; // If the rock doesn't exist
     }
-
 
 
 
@@ -33,7 +33,7 @@ class Rocks{
     /**
      * Get all rocks
      *
-     * @return this.rocks
+     * @return rocks (array)
      */  
     get(){
         return this.rocks;
@@ -42,32 +42,28 @@ class Rocks{
 
 
 
-
-
     /**
-     * Select a rock
+     * Add a rock
      *
-     * @param rock (object) {x: x, y:y}
-     * @return rock object selected
+     * @param rock (object, format : {x: x, y:y})
      */  
-    select(rock){
-        if(this.rocks[rock.x] != undefined && this.rocks[rock.x][rock.y] != undefined){
-            return this.rocks[rock.x][rock.y];
+    add(rock){
+        if(this.rocks[rock.x] == undefined){
+            this.rocks[rock.x] = [];
         }
-        return false;
+        this.rocks[rock.x][rock.y] = new Rock(rock);
     }
-
-
 }
 
-class Rock{
 
+
+class Rock{
 
 
     /**
      * Constructor
      *
-     * @param x and y (number)
+     * @param rock (object, format : {x: .., y: ..})
      */   
     constructor(rock){
         this.chain = 0;
@@ -80,10 +76,10 @@ class Rock{
 
 
 
-
     /**
      * Add a rock
      *
+     * @param player (number)
      */  
     add(player){
         this.player = player;
@@ -93,15 +89,52 @@ class Rock{
 
 
 
-
     /**
      * Remove a rock
      *
      */  
-    remove(player){
+    remove(){
         this.player = 0;
     }
 
+
+
+
+
+    /**
+     * Get the player 
+     *
+     * @return player (number)
+     */  
+    getPlayer(){  
+        return this.player;
+    }
+
+
+
+
+
+    /**
+     * Set chain 
+     *
+     * @param chain (number)
+     */  
+    setChain(chain){  
+        this.chain = chain; 
+    }
+
+
+
+
+
+    /**
+     * Get chain 
+     *
+     * @return chain (number)
+     */  
+    getChain(){  
+        return this.chain;
+    }
 
 
 
@@ -118,6 +151,8 @@ class Rock{
         this.neighboringRocks = [];
         this.cache = [];
 
+        // Select neighboring intersections, empty or nor 
+        // (depends of the param select)
         for(let i=1 ; i <= 4 ; i++){
             let x = this.x;
             let y = this.y;
@@ -142,20 +177,15 @@ class Rock{
 
             let rock = rocks.select({x, y});
 
-            if(select != 'empty'){
-                if(rock && rock.getPlayer() != 0){
-                    this.cache.push(rock);
-                }
-            }
-            else{
-                if(rock && rock.getPlayer() == 0){
-                    this.cache.push(rock);
-                }
+            if((select != 'empty' && rock && rock.getPlayer() != 0) ||
+               (select == 'empty' && rock && rock.getPlayer() == 0)){
+                this.cache.push(rock);
             }
         }
 
+        // Select rock of a particulary user
+        // (depends of the param select)       
         if(select != 'all' && select != 'empty'){
-
             let player = select;
             if(typeof(select) == 'string'){
                 player = ((this.getPlayer() + 2) % 2) + 1;
@@ -163,13 +193,11 @@ class Rock{
                     player = this.getPlayer();
                 }
             }
-
-            for(let i in this.cache){
-                let rock = this.cache[i];
-                if(rock.getPlayer() == player){
-                    this.neighboringRocks.push(rock);
-                }
-            }
+            this.neighboringRocks = [
+                for(rock of this.cache)
+                if(rock.getPlayer() == player)
+                rock
+            ];
         }
         else{
             this.neighboringRocks = this.cache;
@@ -183,65 +211,20 @@ class Rock{
 
 
 
-
     /**
      * Get liberties
      *
      * @return liberties
      */  
     getLiberties(param = 'count'){  
-
         let neighbors = this.getNeighboringRocks('empty');
         if(param == 'count'){
             return neighbors.length;
         }
         return neighbors;
-
     }
-
-
-
-
-
-
-    /**
-     * Get the player 
-     *
-     * @return this.player
-     */  
-    getPlayer(){  
-        return this.player;
-    }
-
-
-
-
-
-
-    /**
-     * Set chain 
-     *
-     * @param chain (number)
-     */  
-    setChain(chain){  
-        this.chain = chain; 
-    }
-
-
-
-
-
-
-    /**
-     * Get chain 
-     *
-     * @return this.chain
-     */  
-    getChain(){  
-        return this.chain;
-    }
-
-
 }
+
+
 
 var rocks = new Rocks();

@@ -1,5 +1,6 @@
 class Chains{
 
+
     /**
      * Constructor
      *
@@ -11,33 +12,15 @@ class Chains{
 
 
 
-
-
-    /**
-     * Add a chain
-     *
-     * @param chain (string)
-     */  
-    add(chain){
-        this.chains[chain] = new Chain(chain);
-    }
-
-
-
-
-
-
     /**
      * Select a chain
      *
      * @param chain (chain)
-     * @return chain object selected
+     * @return chain object selected (array)
      */  
     select(chain){
         return this.chains[chain];
     }
-
-
 
 
 
@@ -55,19 +38,6 @@ class Chains{
 
 
     /**
-     * Join 2 chains
-     *
-     */  
-    join(joinChain, chain){
-        this.chains[joinChain].rocks.push(...this.chains[chain].rocks);
-    }
-
-
-
-
-
-
-    /**
      * Count chains
      *
      * @return this.chains.length
@@ -77,7 +47,32 @@ class Chains{
     }
 
 
+
+
+    /**
+     * Add a chain
+     *
+     * @param chain (number)
+     */  
+    add(chain){
+        this.chains[chain] = new Chain(chain);
+    }
+
+
+
+
+    /**
+     * Join 2 chains
+     *
+     * @param joinChain (number)
+     * @param chain (number)
+     */  
+    join(joinChain, chain){
+        this.chains[joinChain].rocks.push(...this.chains[chain].rocks);
+    }
 }
+
+
 
 class Chain{
 
@@ -87,11 +82,24 @@ class Chain{
      *
      */   
     constructor(name){
+        this.name = name;
+        this.state = 'alive';
         this.rocks = [];
         this.border = [];
         this.territory = [];
-        this.name = name;
-        this.state = 'alive';
+        this.cache = [];
+    }
+
+
+
+
+    /**
+     * Remove a chain
+     *
+     */  
+    remove(){
+        this.rocks = [];
+        this.state = 'dead';
     }
 
 
@@ -111,6 +119,7 @@ class Chain{
     /**
      * Get rocks
      *
+     * @return this.rocks
      */  
     getRocks(){
         return this.rocks.sort();
@@ -120,37 +129,24 @@ class Chain{
 
 
     /**
-     * Remove a chain
+     * Return the border of the chain
      *
-     */  
-    remove(){
-        this.rocks = [];
-        this.state = 'dead';
-    }
-
-
-
-
-
-    /**
-     * Return borders of the chain
-     *
-     * @return array
+     * @param param (string, default : 'objects')
+     * @return this.border (array or number)
      */ 
     getBorders(param = 'objects'){
 
-        this.border = [];
-
-        for(let rock of this.rocks){
-            if(rocks.select({x: rock.x, y: rock.y}).getNeighboringRocks(rocks, 'current').length != 4){
-                this.border.push(rock);
-            }
-        }
+        // Select the rocks not completely surrounded by the current
+        // player (player who created this chain).
+        this.border = [
+            for(rock of this.rocks)
+            if(rocks.select({x: rock.x, y: rock.y}).getNeighboringRocks(rocks, 'current').length != 4)
+            rock    
+        ];
 
         if(param == 'count'){
             return this.border.length;
         }
-
         return this.border.sort();
 
     }
@@ -158,23 +154,21 @@ class Chain{
 
 
 
-
-
     /**
-     * Get liberties of the territories
+     * Get liberties of the chain
      *
+     * @param param (string, default : 'count')     
      * @return this.liberties (number)
      */ 
     getLiberties(param = 'count'){
 
+        // Add the liberties of each rock of the border of this chain
+        // to get liberties of this chain (with removing doublons).
         this.liberties = [];
-        this.cache = [];
-        let cache = '';
-
+        let cache;  this.cache = []; // Use to detect doublons
         for(let rock of this.getBorders(rocks)){
-
             for(let object of rocks.select(rock).getLiberties('objects')){
-                cache = `${object.x};${object.y}`
+                cache = `${object.x};${object.y}`;
                 if(this.cache.indexOf(cache) == -1){
                     this.liberties.push(object);
                     this.cache.push(cache);
@@ -189,5 +183,7 @@ class Chain{
 
     }
 }
+
+
 
 var chains = new Chains();

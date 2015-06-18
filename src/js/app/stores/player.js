@@ -1,5 +1,10 @@
 class Players{
 
+
+    /**
+     * Constructor
+     *
+     */   
     constructor(){
         this.current = 1;
         this.players = [];
@@ -7,19 +12,43 @@ class Players{
         this.players[2] = new Player(2);
     }
 
+
+
+
+    /**
+     * Get the current player
+     *
+     * @return current player (object)
+     */  
     getCurrent(){
         return this.players[this.current];
     }
 
+
+
+
+    /**
+     * Get the adversary of the current player
+     *
+     * @return adversary player (object)
+     */  
     getAdversary(){
         return this.players[((this.current + 2) % 2) + 1];
     }
 
+
+
+
+    /**
+     * Switch player
+     *
+     */  
     switch(){
         this.current = ((this.current++) % 2) + 1;
     }
-
 }
+
+
 
 class Player{
 
@@ -32,11 +61,9 @@ class Player{
     constructor(player){
         this.name = player;
         this.historic = [];
-        this.historic[0] = {
-            type: '',
+        this.historic[0], this.historic[1] = {
+            type: ''
         };
-        this.historic[1] = this.historic[0];
-        this.historic[2] = this.historic[1];
     }
 
 
@@ -45,7 +72,7 @@ class Player{
     /**
      * Get player
      *
-     * @return this.name
+     * @return name (number)
      */  
     getName(){
         return this.name;
@@ -57,11 +84,11 @@ class Player{
     /**
      * Update historic
      *
+     * @param action (object)
      */  
     updateHistoric(action){
         this.historic[0] = this.historic[1];
-        this.historic[1] = this.historic[2];
-        this.historic[2] = action;
+        this.historic[1] = action;
     }
 
 
@@ -73,21 +100,16 @@ class Player{
      */  
     getHistoric(index = 'all'){
         
-        let response = '';
-
-        switch(index){
-            case 'all' :
-                response = this.historic;
-                break;
-            case 'last' : 
-                response = this.historic[2];
-                break;
+        let response = this.historic;
+        if(index == 'last'){
+            response = this.historic[1];
         }
 
         return response;
 
     }
-        
 }
+
+
 
 var players = new Players();

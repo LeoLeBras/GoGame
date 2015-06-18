@@ -21,7 +21,7 @@
  */
 
 var autoprefixer = require('gulp-autoprefixer'),
-    babelify = require('babelify'),
+    babel = require('gulp-babel'),
     base64 = require('gulp-base64'),
     browserify = require('gulp-browserify'),
     browserSync = require('browser-sync'),
@@ -168,9 +168,8 @@ gulp.task('sass', function(){
 gulp.task('js', function () {
    gulp.src([srcDir + jsDir + 'app/**/*.js', srcDir + jsDir + 'index.js'])
       .pipe(concat('index.js'))
-      .pipe(browserify({
-          transform: ['babelify'],
-          debug: true
+      .pipe(babel({
+        stage: 0,
       }))
       .on('error', gutil.log)
       .pipe(gulp.dest(buildDir + jsDir))

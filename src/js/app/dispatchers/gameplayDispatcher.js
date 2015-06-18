@@ -12,7 +12,7 @@ class GameplayDispatcher{
 
 
     listenner(){
-
+        
     	Sprint(this.$goban).on('click', (e) => {
             if(this.Gameplay.addRock(e)){
             	this.Gameplay.updateChains();
