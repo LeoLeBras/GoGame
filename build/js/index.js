@@ -695,8 +695,6 @@ var ScoreActions = (function () {
     return ScoreActions;
 })();
 
-var $GOBAN = '';
-
 var GameplayDispatcher = (function () {
     function GameplayDispatcher() {
         _classCallCheck(this, GameplayDispatcher);
@@ -899,7 +897,7 @@ var Chain = (function () {
                     for (var _iterator11 = _this2.rocks[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
                         var rock = _step11.value;
 
-                        if (rocks.select({ x: rock.x, y: rock.y }).getNeighboringRocks(rocks, 'current').length != 4) {
+                        if (rocks.select({ x: rock.x, y: rock.y }).getNeighboringRocks('current').length != 4) {
                             _border.push(rock);
                         }
                     }

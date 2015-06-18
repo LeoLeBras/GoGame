@@ -140,7 +140,7 @@ class Chain{
         // player (player who created this chain).
         this.border = [
             for(rock of this.rocks)
-            if(rocks.select({x: rock.x, y: rock.y}).getNeighboringRocks(rocks, 'current').length != 4)
+            if(rocks.select({x: rock.x, y: rock.y}).getNeighboringRocks('current').length != 4)
             rock    
         ];
 
