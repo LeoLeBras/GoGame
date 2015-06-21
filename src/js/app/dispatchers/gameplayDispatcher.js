@@ -6,9 +6,6 @@ class GameplayDispatcher{
      *
      */  
     constructor(){
-        this.$goban = Sprint(options['gameplay'].element);
-        this.$next = Sprint(options['control'].next);
-    	this.$stop = Sprint(options['control'].stop);
     	this.Gameplay = new GameplayActions();
         this.Save = new SaveActions();
         this.Score = new ScoreActions();
@@ -16,6 +13,14 @@ class GameplayDispatcher{
     	this.listenner();
     }
 
+
+
+
+
+    /**
+     * Update the gameplay
+     *
+     */  
     update(){
         this.Gameplay.updateChains();
         this.Gameplay.updateGoban();
@@ -24,8 +29,17 @@ class GameplayDispatcher{
     }
 
 
+
+
+
+    /**
+     * Listenner
+     *
+     */  
     listenner(){
-    	Sprint(this.$goban).on('click', (e) => {
+
+        // Add a rock
+    	$goban::on('click', (e) => {
             if(this.Gameplay.addRock(e)){
                 this.update();
 
@@ -40,7 +54,8 @@ class GameplayDispatcher{
             }
         });
 
-        Sprint(this.$next).on('click', () => {
+        // Switch player
+        $next::on('click', () => {
             if(!this.Gameplay.isFinished({
                 type: 'next',
                 player: 'players.getCurrent()'
@@ -53,7 +68,8 @@ class GameplayDispatcher{
             }
         });
 
-        Sprint(this.$stop).on('click', () => {
+        // Stop the gameplay
+        $stop::on('click', () => {
             this.Gameplay.gameOver();
             this.Score.get();
         });
