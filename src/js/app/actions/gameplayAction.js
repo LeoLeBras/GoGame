@@ -54,19 +54,18 @@ class GameplayActions{
            (this.check()))
         {
 
+
             // Save
             this.getRock().add(players.getCurrent().getName());
 
-            // If it's a human, upadte the historic
-            if(origin == 'human'){
-                players.getCurrent().updateHistoric({
-                    type: 'add-rock',
-                    params: {
-                        x: this.x,
-                        y: this.y
-                    }
-                });
-            }
+            // Update the historic
+            players.getCurrent().updateHistoric({
+                type: 'add-rock',
+                params: {
+                    x: this.x,
+                    y: this.y
+                }
+            });
 
             // Set color
             let color = options['rock'].player1;
@@ -304,6 +303,21 @@ class GameplayActions{
 
 
 
+
+    /**
+     * Update rock
+     *
+     */  
+    updateRock(rock){
+        this.x = rock.x;
+        this.y = rock.y;
+    }
+
+
+
+
+
+
     /**
      * Update chains
      *
@@ -368,22 +382,29 @@ class GameplayActions{
      */  
     updateGoban(){
 
+        console.log('step 1');
+
         let neighbors = this.getRock().getNeighboringRocks('ennemy');
 
         if(neighbors.length != 0){
+
+            console.log('step 2');
             
             // Get chains of neighbors
             let chainsOfNeighbors = [];
             for(let rock of neighbors){
                 if(chainsOfNeighbors.indexOf(rock.getChain()) == -1){
+                    console.log('step 3');
                     chainsOfNeighbors.push(rock.getChain());
                 }
             }
 
             // Check is the chains is dead
             for(let chain of chainsOfNeighbors){
+                console.log('step 4');
                 if(chains.select(chain).getLiberties() == 0){
-                    console.log(`Remove chain ${chain}`);
+                    console.log('step 5');
+
                     for(let rock of chains.select(chain).getRocks()){
                         let x = rock.x * cellSize - 1 - rockSize / 2;
                         let y = rock.y * cellSize - 1 - rockSize / 2;

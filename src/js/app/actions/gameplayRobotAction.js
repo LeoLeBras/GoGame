@@ -33,6 +33,8 @@ class gameplayRobotActions extends GameplayActions{
 
 
         setTimeout(() => {
+            super.x = this.x;
+            super.y = this.y;
             super.addRock(rock, 'robot');
         }, this.delay);
 
@@ -50,5 +52,19 @@ class gameplayRobotActions extends GameplayActions{
 
     getDelay(){
         return this.delay;
+    }
+
+
+
+
+
+    /**
+     * Get current rock
+     *
+     * @return rock (object)
+     */  
+
+    getLastRock(){
+        return {x: this.x, y:this.y};
     }
 }

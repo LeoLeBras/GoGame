@@ -44,13 +44,14 @@ class GameplayDispatcher{
                 this.update();
 
                 // Artificial Intelligence
-                /*if(mode == 'rush' &&
+                if(mode == 'rush' &&
                    players.getCurrent().getName() == 2){
                     this.AI.play();
                     setTimeout(() => {
+                        this.Gameplay.updateRock(this.AI.getLastRock())
                         this.update();
-                    }, this.AI.getDelay());
-                }*/
+                    }, this.AI.getDelay() + 10);
+                }
             }
         });
 
