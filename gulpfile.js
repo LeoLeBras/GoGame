@@ -65,7 +65,7 @@ var reload = browserSync.reload;
  */
 
 var prefix = {
-     browsers: ["last 1 version", "> 1%", "ie 8", "ie"]
+     browsers: ["last 1 version", "> 1%", "ie 8"]
 };
 
     

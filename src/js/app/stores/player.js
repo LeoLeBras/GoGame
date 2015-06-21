@@ -61,7 +61,7 @@ class Player{
     constructor(player){
         this.name = player;
         this.historic = [];
-        this.historic[0], this.historic[1] = {
+        this.historic[0], this.historic[1], this.historic[2] = {
             type: ''
         };
     }
@@ -88,7 +88,8 @@ class Player{
      */  
     updateHistoric(action){
         this.historic[0] = this.historic[1];
-        this.historic[1] = action;
+        this.historic[1] = this.historic[2];
+        this.historic[2] = action;
     }
 
 
@@ -102,7 +103,7 @@ class Player{
         
         let response = this.historic;
         if(index == 'last'){
-            response = this.historic[1];
+            response = this.historic[2];
         }
 
         return response;

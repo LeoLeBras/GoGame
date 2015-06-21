@@ -1,5 +1,10 @@
 class GameplayDispatcher{
-	
+
+
+    /**
+     * Constructor
+     *
+     */  
     constructor(){
         this.$goban = Sprint(options['gameplay'].element);
         this.$next = Sprint(options['control'].next);
@@ -7,18 +12,31 @@ class GameplayDispatcher{
     	this.Gameplay = new GameplayActions();
         this.Save = new SaveActions();
         this.Score = new ScoreActions();
+        this.AI = new gameplayRobotActions();
     	this.listenner();
+    }
+
+    update(){
+        this.Gameplay.updateChains();
+        this.Gameplay.updateGoban();
+        this.Save.update();
+        this.Gameplay.switchPlayers();
     }
 
 
     listenner(){
-        
     	Sprint(this.$goban).on('click', (e) => {
             if(this.Gameplay.addRock(e)){
-            	this.Gameplay.updateChains();
-            	this.Gameplay.updateGoban();
-                this.Save.update();
-                this.Gameplay.switchPlayers();
+                this.update();
+
+                // Artificial Intelligence
+                /*if(mode == 'rush' &&
+                   players.getCurrent().getName() == 2){
+                    this.AI.play();
+                    setTimeout(() => {
+                        this.update();
+                    }, this.AI.getDelay());
+                }*/
             }
         });
 

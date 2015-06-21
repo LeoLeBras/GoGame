@@ -175,7 +175,6 @@ class Chain{
                 }
             }
         }     
-
         if(param == 'count'){
             return this.liberties.length;
         }    

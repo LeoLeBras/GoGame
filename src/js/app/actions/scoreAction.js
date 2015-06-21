@@ -1,12 +1,24 @@
 class ScoreActions{
 
+
+    /**
+     * Constructor
+     *
+     */   
     constructor(){
+    	// ...
     }
 
+
+
+
+    /**
+     * Recover the score
+     *
+     */  
     get(){
-    	console.log('****');
-    	console.log('****');
-    	console.log('SCORE :');
+    	// ...
     }
     
+   
 }
