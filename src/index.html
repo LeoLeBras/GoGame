@@ -1,55 +1,20 @@
 <!doctype html>
-<html class="no-js home" lang="fr">
+<html class="no-js" lang="fr">
     <head>
         <meta charset="utf-8">
         <title>Jeu de GO</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="js/webfontloading.js"></script>
         <link rel="stylesheet" href="css/style.css">
-        <style>
-            .Game{
-                display: flex;
-                width: 100vw;
-                height: 100vh;
-            }
-
-            .Game_goban{
-                margin: auto;
-            }
-
-            .Game_goban_gameplay, .Game_goban_grid{
-                position: absolute;
-                cursor: pointer;
-            }
-        
-            .Game_control{
-                position: absolute;
-                left:10px; top:10px;
-            }
-
-            .Game_control_next, .Game_controle_stop{
-                text-transform: uppercase;
-                cursor: pointer;
-            }
-
-        </style>
     </head>
     <body>
-        <div class="Game">
-            <div class="Game_goban">
-                <canvas class="Game_goban_grid"></canvas>
-                <canvas class="Game_goban_gameplay"></canvas>
-            </div>
-            <div class="Game_control">
-                <a role="button" class="Game_control_next">Passer mon tour</a><br>
-                <a role="button" class="Game_controle_stop">Abandonner</a>
-            </div>
-        </div>
+        <main class="Wrapper p-home">
 
-        <!-- build:js js/vendors.js -->
-        <script src="vendors/hash.js"></script>
-        <script src="vendors/sprint/sprint.min.js"></script>
-        <!-- endbuild -->
-        <script src="js/index.js"></script>
+            <div class="ChoosePlayer">
+                <h1 class="ChoosePlayer_title">Choisis ton camp <span class="-purple">Jaune</span> <span class="-italic">vs</span> <span class="-yellow">Violet</span></h1>
+                <div class="ChoosePlayer_item -yellow"></div>
+                <div class="ChoosePlayer_item -purple"></div>
+            </div>
+        </main>
     </body>
 </html>

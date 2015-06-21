@@ -1,13 +1,13 @@
 /**
-  * Open Sans Regular
+  * Bebas Neue
   *
   */
  
  @font-face {
-     font-family: 'Open Sans';
-     src: url(OpenSans/OpenSans-Regular.ttf) format('truetype');
+     font-family: 'Bebas Neue';
+     src: url(BebasNeue/BebasNeue-Bold.ttf) format('truetype');
      font-style: normal;
-     font-weight: normal;
+     font-weight: 700;
  }
 
 
@@ -15,11 +15,3 @@
   * Open Sans Semibold
   *
   */
- 
- @font-face {
-     font-family: 'Open Sans';
-     src: url(OpenSans/OpenSans-Semibold.ttf) format('truetype');
-     font-style: normal;
-     font-weight: normal;
- }
-

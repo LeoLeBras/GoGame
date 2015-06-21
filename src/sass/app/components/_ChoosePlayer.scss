@@ -1,0 +1,56 @@
+/** 
+ * ChoosePlayer Component Style
+ *
+ */ 
+
+.ChoosePlayer{
+	text-align: center;
+	
+	&_title{
+		display: inline-block;
+		width: 400px;
+		font-size: 70px;
+		line-height: 61px;
+		font-weight: 700;
+		color: white;
+		margin-top: 5%;
+
+		.-italic{
+			display: inline-block;
+			font-style: italic;
+			margin: 0 16px 0 6px;
+		}
+
+		.-yellow{
+			color: $primary-color;
+		}
+
+		.-purple{
+			color: $secondary-color;
+		}
+	}
+
+	&_item{
+		position: absolute;
+		z-index: -1;
+		top:0;
+		width: 50%;
+		height: 100%;
+		background: #ccc;
+		transition: opacity .2s ease;
+
+		&.-yellow{
+			background: $primary-color;
+		}
+
+		&.-purple{
+			left: 50%;
+			background: $secondary-color;
+		}
+
+		&:hover{
+			opacity: .85;
+		}
+	}
+
+}
