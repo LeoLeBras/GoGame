@@ -59,10 +59,12 @@ class Player{
      * @param name of the current player
      */   
     constructor(player){
+        this.chains = [];
+        this.tour = 0;
         this.name = player;
         this.historic = [];
         this.historic[0], this.historic[1], this.historic[2] = {
-            type: ''
+            type: '',
         };
     }
 
@@ -82,6 +84,18 @@ class Player{
 
 
     /**
+     * Get tour
+     *
+     * @return tour (number)
+     */  
+    getTour(){
+        return this.tour;
+    }
+
+
+
+
+    /**
      * Update historic
      *
      * @param action (object)
@@ -90,6 +104,7 @@ class Player{
         this.historic[0] = this.historic[1];
         this.historic[1] = this.historic[2];
         this.historic[2] = action;
+        this.tour++;
     }
 
 
@@ -107,6 +122,26 @@ class Player{
         }
 
         return response;
+
+    }
+
+
+
+
+    /**
+     * Get chains
+     *
+     */  
+    getChains(){
+        
+        this.chains = [];
+        for(let chain of chains.get()){
+            if(chain.getPlayer() == players.getCurrent().getName()){
+                this.chains.push(chain.getName());
+            }
+        }
+
+        return this.chains;
 
     }
 }

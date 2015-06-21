@@ -48,9 +48,9 @@ class GameplayDispatcher{
                    players.getCurrent().getName() == 2){
                     this.AI.play();
                     setTimeout(() => {
-                        this.Gameplay.updateRock(this.AI.getLastRock())
+                        this.Gameplay.setRock(this.AI.getLastRock())
                         this.update();
-                    }, this.AI.getDelay() + 10);
+                    }, this.AI.getDelay());
                 }
             }
         });

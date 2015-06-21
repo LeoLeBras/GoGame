@@ -36,7 +36,7 @@ class GameplayActions{
      * @param origin (string)
      * @return response: true or false, depend if the rock was added (boolean)
      */  
-    addRock(e, origin = 'human'){
+    addRock(e, origin = 'human', type = null){
 
         // Set current rock
         if(origin == 'human'){
@@ -63,7 +63,8 @@ class GameplayActions{
                 type: 'add-rock',
                 params: {
                     x: this.x,
-                    y: this.y
+                    y: this.y,
+                    type: type
                 }
             });
 
@@ -307,8 +308,9 @@ class GameplayActions{
     /**
      * Update rock
      *
+     * @param rock (object)
      */  
-    updateRock(rock){
+    setRock(rock){
         this.x = rock.x;
         this.y = rock.y;
     }
@@ -382,29 +384,21 @@ class GameplayActions{
      */  
     updateGoban(){
 
-        console.log('step 1');
-
         let neighbors = this.getRock().getNeighboringRocks('ennemy');
 
         if(neighbors.length != 0){
 
-            console.log('step 2');
-            
             // Get chains of neighbors
             let chainsOfNeighbors = [];
             for(let rock of neighbors){
                 if(chainsOfNeighbors.indexOf(rock.getChain()) == -1){
-                    console.log('step 3');
                     chainsOfNeighbors.push(rock.getChain());
                 }
             }
 
             // Check is the chains is dead
             for(let chain of chainsOfNeighbors){
-                console.log('step 4');
                 if(chains.select(chain).getLiberties() == 0){
-                    console.log('step 5');
-
                     for(let rock of chains.select(chain).getRocks()){
                         let x = rock.x * cellSize - 1 - rockSize / 2;
                         let y = rock.y * cellSize - 1 - rockSize / 2;
@@ -414,5 +408,6 @@ class GameplayActions{
                 }
             }
         }
+
     }
 }

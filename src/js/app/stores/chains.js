@@ -55,7 +55,7 @@ class Chains{
      * @param chain (number)
      */  
     add(chain){
-        this.chains[chain] = new Chain(chain);
+        this.chains[chain] = new Chain(chain, players.getCurrent().getName());
     }
 
 
@@ -81,13 +81,14 @@ class Chain{
      * Constructor
      *
      */   
-    constructor(name){
+    constructor(name, player){
         this.name = name;
         this.state = 'alive';
         this.rocks = [];
         this.border = [];
         this.territory = [];
         this.cache = [];
+        this.player = player;
     }
 
 
@@ -123,6 +124,30 @@ class Chain{
      */  
     getRocks(){
         return this.rocks.sort();
+    }
+
+
+
+
+    /**
+     * Get name
+     *
+     * @return this.name
+     */  
+    getName(){
+        return this.name;
+    }
+
+
+
+
+    /**
+     * Get player
+     *
+     * @return player (number)
+     */  
+    getPlayer(){
+        return this.player;
     }
 
 
