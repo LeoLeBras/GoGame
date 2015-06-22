@@ -1,0 +1,29 @@
+/** 
+ * Game Component Style
+ *
+ */ 
+
+.Game{
+	display: flex;
+	margin: auto;
+
+	&_goban, &_control{
+		display: inline-block;
+		vertical-align:middle;
+	}
+
+	&_goban{
+        &_gameplay, &_grid{
+            position: absolute;
+            cursor: pointer;
+        }
+    }
+
+	&_control{
+		&_currentPlayer{
+			font-size: 51px;
+			color: mix($primary-color, black, 40%);
+		}
+	}
+}            
+

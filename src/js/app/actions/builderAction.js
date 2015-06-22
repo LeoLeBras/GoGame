@@ -36,6 +36,7 @@ class Builder{
             c.moveTo(cellSize, cellSize * x);
             c.lineTo(gobanSize - cellSize, cellSize * x);
             c.lineWidth = grid_border_width;
+            c.strokeStyle = grid_border_color;
             c.stroke();
         }
         for(var y = 1; y <= grid ; y++){

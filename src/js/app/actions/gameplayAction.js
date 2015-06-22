@@ -69,9 +69,9 @@ class GameplayActions{
             });
 
             // Set color
-            let color = options['rock'].player1;
+            let color = rock_player1_color;
             if(players.getCurrent().getName() == 2){
-                color =  options['rock'].player2;
+                color =  rock_player2_color;
             }
 
             // Draw the rock

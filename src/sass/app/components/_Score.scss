@@ -1,0 +1,128 @@
+/** 
+ * Score Component Style
+ *
+ */ 
+
+.Score{
+	$white: #fffed7;
+	$minion-width: 300px;
+	$minion-height: 663px;
+
+	&:before{
+		content: '';
+		display: block;
+		position: absolute;
+		z-index: 10;
+		width: $minion-width;	height: $minion-height;
+		margin-top: $minion-height / -3.5;
+		margin-left: $minion-width * -1 + 60px;
+		background-image: url('../img/score_win.png');
+	}
+	
+	position: relative;
+	width: 500px;
+	margin: auto;
+	left: 60px;
+
+	&_restart{
+		display: block;
+		position: absolute;
+		left: 50%;
+		top: -100px;
+		margin-left: -36px;
+		@include square(72px);
+		border-radius: 50%;
+		background: url('../img/restart.svg') mix($primary-color, white, 86%);
+		background-size: 50%;
+		background-position: center;
+		background-repeat: no-repeat;
+		transition: transform ease .3s;
+		cursor: pointer;
+
+		&:hover{
+			transform: rotate(360deg);
+		}
+	}
+
+	&_players{
+		background: mix($primary-color, white, 86%);
+		padding: 20px 70px;
+	}
+
+	&_player{
+		&:first-child{
+			margin-top:22px;
+			margin-bottom: 28px;
+		}
+
+		&:last-child{
+			margin-bottom: 18px;
+		}
+
+		&_title{
+			font-size: 46px;
+			font-weight: 700;
+			text-transform: uppercase;
+			color: mix($primary-color, black, 39%);
+			margin-bottom: 13px;
+		}
+
+		&_item{
+			font-size: 26px;
+			font-weight: 700;
+			color: $white;
+			line-height: 30px;
+		}
+
+		&_total{
+			float: right;
+			font-size: 40px;
+			margin-top: -35px;
+			font-weight: 700;
+			color: $white;
+		}
+	}
+
+	&_share{
+		margin-top: 10px;
+		text-align: center;
+
+		&_item{
+			display: inline-block;
+			font-size: 22px;
+			color: $white;
+			text-decoration: none;
+			letter-spacing: 2px;
+			padding: 9px 0 9px 45px;
+			width: 243px;
+
+			&:first-child{
+				margin-right: 8px;
+			}
+
+			&:before{
+				content: '';
+				display: inline-block;
+			}
+
+			&.-twitter{
+				background: url('../img/twitter.svg') #5ab7db;
+				background-repeat: no-repeat;
+				background-position: 71px center;
+				background-size: 9%;
+			}
+
+			&.-facebook{
+				background: url('../img/facebook.svg') #1c3c8c;
+				background-repeat: no-repeat;
+				background-position: 67px center;
+				background-size: 8%;
+				padding-left: 35px;
+			}
+
+			&:hover{
+				opacity: .8;
+			}
+		}
+	}
+}

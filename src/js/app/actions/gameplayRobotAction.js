@@ -61,7 +61,7 @@ class gameplayRobotActions extends GameplayActions{
             }
             else{
 
-                // Check type of last three action
+                // Check type of last three actions
                 let cache = [];
                 let i = 0;
                 for(let item of players.getCurrent().getHistoric()){
@@ -146,7 +146,7 @@ class gameplayRobotActions extends GameplayActions{
 
 
     /**
-     * Collect the rocks
+     * Collect interresting rock to plau
      *
      * @param player (string)
      * @param type (string)
