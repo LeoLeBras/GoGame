@@ -46,17 +46,27 @@ class GameplayDispatcher{
                 // Artificial Intelligence
                 if(mode == 'rush' &&
                    players.getCurrent().getName() == 2){
-                    this.AI.play();
-                    setTimeout(() => {
-                        this.Gameplay.setRock(this.AI.getLastRock())
-                        this.update();
-                    }, this.AI.getDelay());
+
+                    // If the AI find something to do
+                    if(this.AI.play()){
+                        setTimeout(() => {
+                            this.Gameplay.setRock(this.AI.getLastRock())
+                            this.update();
+                        }, this.AI.getDelay());
+                    }
+
+                    // Artificial intelligence passes his turn
+                    else{
+                        $next::trigger('click');
+                    }
+
                 }
             }
         });
 
         // Switch player
         $next::on('click', () => {
+            console.log('next');
             if(!this.Gameplay.isFinished({
                 type: 'next',
                 player: 'players.getCurrent()'
@@ -76,5 +86,4 @@ class GameplayDispatcher{
         });
 
     }
-
 }

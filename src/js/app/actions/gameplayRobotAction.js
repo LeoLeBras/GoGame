@@ -14,102 +14,6 @@ class gameplayRobotActions extends GameplayActions{
 
 
     /**
-     * Play
-     *
-     */  
-    play(){
-
-        this.delay = Math.floor(Math.random() * 200) + 100;
-        this.delay = 0;
-        let type = 'random';
-
-        do{
-            // CASE 1 : random (just at the begining)
-            if(players.getCurrent().getTour() < 2){
-                this.x = Math.floor(Math.random() * grid) + 1;
-                this.y = Math.floor(Math.random() * grid) + 1;
-            }
-            else{
-
-                // Check type of last three action
-                let cache = [];
-                let i = 0;
-                for(let item of players.getCurrent().getHistoric()){
-                    if(item != undefined &&
-                       item.params != undefined &&
-                       item.params.type != undefined){
-                        i++;
-                        if(cache.indexOf(item.params.type) == -1){
-                            cache.push(item.params.type);
-                        }
-                    }
-                }
-
-                // CASE 2 : Defensive strategy
-                if(!(i == 3 && cache.length == 1 && cache[0] == 'defensive')){
-                    let chainsOfPlayer = players.getCurrent().getChains();
-                    let cache = [];
-
-                    // Collected the rocks to protect
-                    for(let chain of chainsOfPlayer){
-                        chain = chains.select(chain)
-                        let liberties = chain.getLiberties();
-                        if(liberties < 4 && chain.getBorders('count') > 2){
-                            for(let rock of chain.getLiberties('objects')){
-                                if(rock.getLiberties()) < 3){
-                                    cache.push({
-                                        x: rock.x,
-                                        y: rock.y
-                                    });
-                                }
-                            }
-                        }
-                    }
-                    if(cache.length != 0){
-                        let rock = cache[Math.floor(Math.random() * (cache.length)) + 0];
-                        this.x = rock.x;
-                        this.y = rock.y;
-                        type = 'defensive';
-                    }
-                }
-
-                // CASE 3 : Offensive strategy
-                if(type != 'defensive' &&
-                   !(i == 3 && cache.length == 1 && cache[0] == 'offensive')){
-                        this.x = Math.floor(Math.random() * grid) + 1;
-                        this.y = Math.floor(Math.random() * grid) + 1;
-                        type = 'offensive';
-                }
-
-                // CASE 4 : Sustainable strategy
-                else if(type != 'defensive'){
-                    this.x = Math.floor(Math.random() * grid) + 1;
-                    this.y = Math.floor(Math.random() * grid) + 1;
-                    type = 'sustainable';
-                }
-            }
-        }while(!super.check());
-
-        console.log(`Strategy : ${type}`);
-
-        let rock = {
-            x: this.x, 
-            y: this.y
-        };
-
-        setTimeout(() => {
-            super.x = this.x;
-            super.y = this.y;
-            super.addRock(rock, 'robot', type);
-        }, this.delay);
-
-    }
-
-
-
-
-
-    /**
      * Get delay (use for the dispatcher to update the gameplay)
      *
      * @return delay (number)
@@ -130,5 +34,190 @@ class gameplayRobotActions extends GameplayActions{
      */  
     getLastRock(){
         return {x: this.x, y:this.y};
+    }
+
+
+
+
+
+    /**
+     * Play
+     *
+     */  
+    play(){
+
+        this.delay = Math.floor(Math.random() * 200) + 100;
+        this.delay = 0;
+        this.type = 'null';
+        let i = 0;
+
+        do{
+            // CASE 1 : random (just at the begining)
+            if(players.getCurrent().getTour() < 2){
+                this.x = Math.floor(Math.random() * grid) + 1;
+                this.y = Math.floor(Math.random() * grid) + 1;
+                this.type = 'random';
+            }
+            else{
+
+                // Check type of last three action
+                let cache = [];
+                let i = 0;
+                for(let item of players.getCurrent().getHistoric()){
+                    if(item != undefined &&
+                       item.params != undefined &&
+                       item.params.type != undefined){
+                        i++;
+                        if(cache.indexOf(item.params.type) == -1){
+                            cache.push(item.params.type);
+                        }
+                    }
+                }
+
+                // CASE 2 : Defensive strategy
+                if(!(i == 3 && cache.length == 1 && cache[0] == 'defensive')){
+                    let response = this.collectRocks('current', 'in-danger', 'defensive');
+                    if(response){
+                        this.x = response.x;
+                        this.y = response.y;
+                        this.type = response.type;
+                    }
+                }
+
+                // CASE 3 : Offensive strategy
+                if(!(i == 3 && cache.length == 1 && cache[0] == 'offensive') &&
+                    this.type != 'Offensive'){
+                    let response = this.collectRocks('adversary', 'in-danger', 'offensive');
+                    if(response){
+                        this.x = response.x;
+                        this.y = response.y;
+                        this.type = response.type;
+                    }
+                }
+
+                // CASE 4 : Sustainable strategy
+                if(this.type != 'defensive' && this.type != 'offensive'){
+                    let response = this.collectRocks('adversary', 'sustainable', 'sustainable');
+                    if(response){
+                        this.x = response.x;
+                        this.y = response.y;
+                        this.type = response.type;
+                    }
+                }
+
+                // CASE 5 : Random
+                if(this.type != 'defensive' && this.type != 'offensive' && this.type != 'sustainable'){
+                    this.x = Math.floor(Math.random() * grid) + 1;
+                    this.y = Math.floor(Math.random() * grid) + 1;
+                    this.type = 'random';
+                }
+            }
+
+            // To test if the boucle is not infinite
+            i++;
+
+        }while(!super.check() && i < 60); // Run while !Gameplay.check() (extends)
+        
+        if(this.type != 'null'){
+
+            let rock = {
+                x: this.x, 
+                y: this.y
+            };
+
+            setTimeout(() => {
+                super.x = this.x;
+                super.y = this.y;
+                super.addRock(rock, 'robot', this.type);
+            }, this.delay);
+
+            return true;
+        }
+
+        // CASE 6 : Nothing to do
+        return false;
+
+
+    }
+
+
+
+
+
+    /**
+     * Collect the rocks
+     *
+     * @param player (string)
+     * @param type (string)
+     * @return false or rock object
+     */  
+    collectRocks(player, select, type){
+        let chainsOfPlayer = [];
+        let cacheRocks = [];
+        let cacheLiberties = 0;
+
+        if(player == 'curent'){
+            chainsOfPlayer = players.getCurrent().getChains();
+        }
+        else if(player == 'adversary'){
+            chainsOfPlayer = players.getAdversary().getChains();
+        }
+        
+        // Collected the rocks to protect // kill
+        for(let chain of chainsOfPlayer){
+            chain = chains.select(chain)
+            let liberties = chain.getLiberties();
+
+            // Set condition of the select
+            let condition = liberties < 5 && chain.getBorders('count') > 2;
+            if(select == 'sustainable'){
+                condition = true;
+                cacheLiberties = 9999; // infinite
+            }
+
+            if(condition){
+                for(let rock of chain.getLiberties('objects')){
+                    let rockLiberties = parseInt(rock.getLiberties());
+                    
+                    if(rockLiberties > 1){
+
+                        // Save interesting rock
+                        cacheRocks.push({
+                            x: rock.x,
+                            y: rock.y,
+                            liberties: rockLiberties
+                        });
+
+                        // Minimum / Maximum liberties
+                        condition = rockLiberties > parseInt(cacheLiberties);
+                        if(select == 'sustainable'){
+                            condition = rockLiberties < parseInt(cacheLiberties);
+                        }
+                        if(condition){
+                            cacheLiberties = rockLiberties;
+                        }
+
+                    }
+                }
+            }
+        }
+
+        // Take the most interesting rock
+        if(cacheRocks.length != 0){
+            let rock = cacheRocks[Math.floor(Math.random() * (cacheRocks.length)) + 0];
+            let i = 0;
+            do{
+                rock = cacheRocks[Math.floor(Math.random() * (cacheRocks.length)) + 0];    
+                i++;
+            }while(rock.liberties != cacheLiberties && i < 20);
+
+            return{
+                x: rock.x,
+                y: rock.y,
+                type: type
+            };
+        }
+
+        return false;
     }
 }

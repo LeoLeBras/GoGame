@@ -74,3 +74,10 @@ function height(value){
     })
     return this;
 }
+
+function trigger(value){
+    this.forEach((element) => {
+        simulate(element, value);
+    });
+    return this;
+}

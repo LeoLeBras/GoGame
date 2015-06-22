@@ -166,7 +166,7 @@ gulp.task('sass', function(){
  */
 
 gulp.task('js', function () {
-   gulp.src([srcDir + jsDir + 'app/**/*.js', srcDir + jsDir + 'index.js'])
+   gulp.src([srcDir + jsDir + 'app/librairies/*.js', srcDir + jsDir + 'app/**/*.js', srcDir + jsDir + 'index.js'])
       .pipe(concat('index.js'))
       .pipe(babel({
         stage: 0,
@@ -174,6 +174,10 @@ gulp.task('js', function () {
       .on('error', gutil.log)
       .pipe(gulp.dest(buildDir + jsDir))
       .pipe(reload({stream: true}));
+
+   gulp.src([srcDir + jsDir + 'app/librairies/*.js', srcDir + jsDir + 'app/**/*.js', srcDir + jsDir + 'index.js'])
+      .pipe(concat('index.es6.js'))
+      .pipe(gulp.dest(buildDir + jsDir));
 });
 
 
