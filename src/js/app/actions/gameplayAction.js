@@ -190,6 +190,12 @@ class GameplayActions{
                 }
             }
 
+            // Check if we are on border of the goban
+            let possibleNeighbors = 4;
+            if(this.x == 1 || this.y == 1 || this.x == grid || this.y == grid){
+                possibleNeighbors = 3;
+            }
+
             if(this.cache.length !=  0){
                 count = 0;
                 let rock = chains.select(this.cache[0]).getLiberties('objects')[0];
@@ -204,10 +210,13 @@ class GameplayActions{
                 // Check if it's a suicide
                 if(count == this.cache.length &&
                    rock.x == this.x && rock.y == this.y &&
-                   rock.getNeighboringRocks().length == 4){
+                   rock.getNeighboringRocks().length == possibleNeighbors){
                     response = true;
                 }
-            }        
+            }
+            else if(this.getRock().getNeighboringRocks(players.getAdversary().getName()).length == possibleNeighbors){
+                response = true;
+            }   
         }
 
         return response;
@@ -408,6 +417,5 @@ class GameplayActions{
                 }
             }
         }
-
     }
 }
