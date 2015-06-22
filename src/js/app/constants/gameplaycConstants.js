@@ -2,7 +2,7 @@
  * Gameplay constants
  *
  */  
-const mode = 'rush';
+const mode = 'clash';
 const $goban = $('.Game_goban'); 
 const $goban_gameplay = $('.Game_goban_gameplay');
 const $goban_gameplay_canvas = document.querySelector('.Game_goban_gameplay');

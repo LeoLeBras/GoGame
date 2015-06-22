@@ -46,14 +46,15 @@ class gameplayRobotActions extends GameplayActions{
      */  
     play(){
 
-        this.delay = Math.floor(Math.random() * 200) + 100;
+        this.delay = Math.floor(Math.random() * 3000) + 300;
         this.delay = 0;
         this.type = 'null';
         let i = 0;
 
         do{
-            // CASE 1 : random (just at the begining)
-            if(players.getCurrent().getTour() < 2){
+            // CASE 1 : random (just at the begining and once in 20)
+            let random = Math.floor(Math.random() * 18) + 1;
+            if(players.getCurrent().getTour() < 2 || random == 14){
                 this.x = Math.floor(Math.random() * grid) + 1;
                 this.y = Math.floor(Math.random() * grid) + 1;
                 this.type = 'random';

@@ -193,7 +193,16 @@ class GameplayActions{
             // Check if we are on border of the goban
             let possibleNeighbors = 4;
             if(this.x == 1 || this.y == 1 || this.x == grid || this.y == grid){
-                possibleNeighbors = 3;
+                // In corner ?
+                if((this.x == 1 && this.y == 1) ||
+                   (this.x == grid && this.y == grid) ||
+                   (this.x == 1 && this.y == grid) ||
+                   (this.x == grid && this.y == 1)){
+                    possibleNeighbors = 2;
+                }
+                else{
+                    possibleNeighbors = 3;
+                }
             }
 
             if(this.cache.length !=  0){
