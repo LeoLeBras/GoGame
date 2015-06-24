@@ -81,3 +81,25 @@ function trigger(value){
     });
     return this;
 }
+
+function remove(){  
+    this.forEach((element) => {
+        element.parentNode.removeChild(element);
+    });
+    return this;
+}
+
+function insert(node) {
+    this.forEach((element) => {
+        element.innerHTML = node;
+    });
+    return this;
+}
+
+
+function text(value) {
+    this.forEach((element) => {
+        element.innerHTML = value;
+    });
+    return this;
+}

@@ -6,9 +6,6 @@ class GameplayActions{
      *
      */   
     constructor(){
-        this.canvas = $goban_gameplay_canvas.getContext('2d');
-
-        // Initialyze the rocks array
         for(this.x= 1; this.x <= grid ; this.x++){
             for(this.y = 1; this.y <= grid ; this.y++){
                 rocks.add({
@@ -17,6 +14,18 @@ class GameplayActions{
                 });
             }
         }
+    }
+
+
+
+
+
+    /**
+     * Initialyze
+     *
+     */  
+    initialyze(){
+        this.canvas = $goban_gameplay_canvas.getContext('2d');
     }
 
 

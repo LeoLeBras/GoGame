@@ -6,10 +6,14 @@ class GameplayDispatcher{
      *
      */  
     constructor(){
+        this.Builder = new BuilderActions();
     	this.Gameplay = new GameplayActions();
+        this.Gameplay.initialyze('purple');
+        this.Builder.run('purple');
         this.Save = new SaveActions();
         this.Score = new ScoreActions();
         this.AI = new gameplayRobotActions();
+        this.View = new ViewActions();
     	this.listenner();
     }
 
@@ -26,6 +30,7 @@ class GameplayDispatcher{
         this.Gameplay.updateGoban();
         this.Save.update();
         this.Gameplay.switchPlayers();
+        this.View.switchPlayers();
     }
 
 
@@ -85,5 +90,40 @@ class GameplayDispatcher{
             this.Score.get();
         });
 
+        // Select player
+        $player::on('click', () => {
+        });
+
+        // Select mode "RUSH"
+        $rush::on('click', () => {
+            this.View.showChoicePlayers('rush');
+        });
+
+        // Select mode "CLASH"
+        $clash::on('click', () => {
+            this.View.showChoicePlayers('clash');
+            setTimeout(() => {
+                const $player1 = $('.ChoosePlayer_item.-yellow');
+                const $player2 = $('.ChoosePlayer_item.-purple');
+
+                // Select player 1
+                $player1::on('click', () => {
+                    this.View.showGoban('player1');
+                });
+
+                // Select player 2
+                $player2::on('click', () => {
+                    this.View.showGoban('player2');
+                });
+            },3000);
+        });
+
+        $facebook::on('click', () => {
+            this.View.showFacebookShare();
+        });
+
+        $twitter::on('click', () => {
+            this.View.showTwitterShare();
+        });
     }
 }

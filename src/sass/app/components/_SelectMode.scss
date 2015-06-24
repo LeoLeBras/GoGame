@@ -1,0 +1,81 @@
+/** 
+ * Select Mode Component Style
+ *
+ */ 
+
+@keyframes pulse{
+	0%{ 
+		top:0px;
+	}
+	50%{
+		top: -20px;
+	}
+	100%{
+		top:0px
+	}
+}
+
+.SelectMode{
+	width: 100%;
+
+	&_item{
+		&:before{
+			content: '';
+			display: inline-block;
+			background: #fffed7;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 35%;
+			@include square(70px);
+			border-radius: 50%;
+			margin-bottom: 16px;
+		}
+
+		&.-rush:before{
+			background-image: url('../img/selectMode_rush.png');
+		}
+
+		&.-clash:before{
+			background-image: url('../img/selectMode_clash.png');
+		}
+
+		display: inline-block;
+		position: absolute;
+		top:50%;
+		left: 50%;
+		transform: translateY(-2px);
+		transform: translateX(-320px);
+		margin-top: 10px;
+		font-size: 33px;
+		font-weight: 700;
+		text-align: center;
+		width: 141px;
+		color: rgba(black, .9);
+		cursor: pointer;
+		transition: color .3s ease;
+
+		& + &{
+			margin-left: 500px;
+		}
+
+		&:hover{
+			color: rgba(black, .5);
+		}
+
+		&:hover:before, &.is-active:before{
+			animation: pulse .65s ease infinite;
+		}
+	}
+
+	&_minion{
+		content: '';
+		display: block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 254px;	height: 552px;
+		margin-top:-300px;
+		margin-left: -127px;
+		background: url('../img/selectMode_minion.png');
+	}
+}

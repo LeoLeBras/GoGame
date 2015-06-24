@@ -18,7 +18,6 @@ class gameplayRobotActions extends GameplayActions{
      *
      * @return delay (number)
      */  
-
     getDelay(){
         return this.delay;
     }
@@ -205,12 +204,12 @@ class gameplayRobotActions extends GameplayActions{
 
         // Take the most interesting rock
         if(cacheRocks.length != 0){
-            let rock = cacheRocks[Math.floor(Math.random() * (cacheRocks.length)) + 0];
+            let rock = cacheRocks[Math.floor(Math.random() * (cacheRocks.length))];
             let i = 0;
             do{
-                rock = cacheRocks[Math.floor(Math.random() * (cacheRocks.length)) + 0];    
+                rock = cacheRocks[Math.floor(Math.random() * (cacheRocks.length))];    
                 i++;
-            }while(rock.liberties != cacheLiberties && i < 20);
+            }while(rock.liberties != cacheLiberties && i < 40);
 
             return{
                 x: rock.x,

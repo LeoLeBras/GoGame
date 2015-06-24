@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+
+	<script>
+		
+		var tab = [{
+		    title: 'example1',
+		    description: 'description1',
+		    categories: ['category1', 'category2']
+	    },
+	    {
+		    title: 'example2',
+		    description: 'description2',
+		    categories: ['category2', 'category3']
+	    },
+	    {
+		    title: 'example3',
+		    description: 'description3',
+		    categories: ['category3', 'category4']
+		},];
+
+		function search(value){
+			var resultats = [];
+			for(var i in tab){
+			    for(var y in tab[i].categories){
+			    	if(tab[i].categories[y] == value){
+			    		resultats.push(tab[i]);
+			    	}
+			    }
+			}
+			return resultats;
+		}
+
+		console.log(search('category3'));
+
+	</script>
+</body>
+</html>

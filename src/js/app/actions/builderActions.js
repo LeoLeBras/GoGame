@@ -1,11 +1,21 @@
-class Builder{
+class BuilderActions{
 
 
     /**
      * Constructor
      *
      */     
-    constructor(){
+    constructor(){};
+
+
+
+
+
+    /**
+     * Run
+     *
+     */  
+    run(){
 
         //Set size of $goban
         $goban::css({

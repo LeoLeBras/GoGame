@@ -10,8 +10,8 @@
 	&_title{
 		display: inline-block;
 		position: relative;
-		width: 400px;
-		font-size: 70px;
+		width: 430px;
+		font-size: 77px;
 		line-height: 63px;
 		font-weight: 700;
 		color: white;
@@ -76,7 +76,7 @@
 				background-size: 434px 266px;
 			}
 
-			&:hover:before{
+			&:hover:before, &.is-active:before{
 				margin-top: -20px;
 				animation: pulse .5s ease infinite;
 			}
@@ -92,7 +92,7 @@
 				margin-top: 30px;
 			}
 
-			&:hover:before{
+			&:hover:before, &.is-active:before{
 				margin-top: 10px;
 				animation: pulse .5s ease infinite;
 			}
