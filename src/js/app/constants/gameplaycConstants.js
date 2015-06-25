@@ -4,7 +4,7 @@
  */  
 
  // Gameplay
-const mode = 'clash';
+const mode = 'rush';
 const grid = 13;
 
 // Selectors goban
@@ -40,9 +40,10 @@ const $goban_grid_canvas = document.querySelector('.Game_goban_grid');
 const cellSize = 40;
 const gobanSize = (grid + 1) * cellSize;
 const grid_border_width = 1;
-const grid_border_color = 'rgba(255,255,255,.3)';
+const grid_border_color_purple = 'rgba(255,255,255,.3)';
+const grid_border_color_yellow = 'rgba(0,0,0,.15)';
 const rockSize = 24;
-const rock_player1_color = '#C9A318';
-const rock_player1_color_dark = '#ffd84e';
+const rock_player1_color = '#ffd84e';
+const rock_player1_color_dark = '#DDB316';
 const rock_player2_color = '#966ad1';
 const rock_player2_color_dark = '#6D479D';

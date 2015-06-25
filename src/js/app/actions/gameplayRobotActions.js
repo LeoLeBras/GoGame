@@ -5,8 +5,20 @@ class gameplayRobotActions extends GameplayActions{
      * Constructor
      *
      */   
-    constructor(){
-        super();
+    constructor(style){
+        super(style);
+    }
+
+
+
+
+
+    /**
+     * Initialyze
+     *
+     */  
+    initialyze(){
+        super.initialyze();
     }
 
 

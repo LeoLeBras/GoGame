@@ -96,7 +96,6 @@ function insert(node) {
     return this;
 }
 
-
 function text(value) {
     this.forEach((element) => {
         element.innerHTML = value;

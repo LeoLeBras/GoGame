@@ -56,7 +56,7 @@ class ViewActions{
                     $choiceModes::remove();
                     $wrapper::insert(`
                         <div class="ChoosePlayer" style="opacity:0">
-                            <h1 style="top: -100%" class="ChoosePlayer_title">Choisis ton camp <span class="-yellow">Jaune</span> <span class="-italic">vs</span> <span class="-purple">Violet</span></h1>
+                            <h1 style="top: -600px" class="ChoosePlayer_title">Choisis ton camp <span class="-yellow">Jaune</span> <span class="-italic">vs</span> <span class="-purple">Violet</span></h1>
                             <a href="#" class="ChoosePlayer_item -yellow" style="top: -100%"></a>
                             <a href="#" class="ChoosePlayer_item -purple" style="top: -100%"></a>
                         </div>
@@ -167,21 +167,51 @@ class ViewActions{
                      },{
                         complete: () => {
                             $choicePlayers::remove();
+                            let className = 'yellow';
+                            if(player == 'player2'){
+                                className = 'purple';
+                            }
+
+                            $wrapper::insert(`
+                                <div class="Game -${className}">
+                                    <div class="Game_goban" style="margin-top: 150%">
+                                        <canvas class="Game_goban_grid"></canvas>
+                                        <canvas class="Game_goban_gameplay"></canvas>
+                                    </div>
+                                    <div class="Game_control" style="margin-top: 150%">
+                                        <span class="Game_control_currentPlayer">Joueur 2</span>
+                                        <span class="Game_control_timer">00:34</span>
+                                        <a role="button" class="Game_control_button -next">Passer mon tour</a>
+                                        <a role="button" class="Game_control_button -stop">Abandonner</a>
+                                        <a role="button" class="Game_control_button -stop">Sauvegarder</a>
+                                    </div>
+                                </div>
+                            `);
+                            this.Builder = new BuilderActions(className);
+                            this.Builder.run();
+
+                            const $goban = $('.Game_goban'); 
+                            const $control = $('.Game_control'); 
+
+                            Velocity($goban, {
+                                marginTop: 0
+                            },{
+                                duration: 400,
+                                delay: 100
+                            });
+
+                            Velocity($control, {
+                                marginTop: 0
+                            },{
+                                duration: 400,
+                                delay: 200
+                            });
+
                         }
                      });
                 }, 900)
             }
         });
-
-        /*
-                            const $choicePlayers = $('.ChoosePlayer');
-                    const $player = $('.ChoosePlayer_item');
-                    const $player1 = $('.ChoosePlayer_item.-yellow');
-                    const $player2 = $('.ChoosePlayer_item.-purple');
-                    const $choicePlayers_title = $('.ChoosePlayer_title');*/
-
-
-
     }
 
 

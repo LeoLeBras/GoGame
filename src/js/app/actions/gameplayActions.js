@@ -5,7 +5,8 @@ class GameplayActions{
      * Constructor
      *
      */   
-    constructor(){
+    constructor(style){
+        this.style = style;
         for(this.x= 1; this.x <= grid ; this.x++){
             for(this.y = 1; this.y <= grid ; this.y++){
                 rocks.add({
@@ -25,6 +26,7 @@ class GameplayActions{
      *
      */  
     initialyze(){
+        const $goban_gameplay_canvas = document.querySelector('.Game_goban_gameplay');
         this.canvas = $goban_gameplay_canvas.getContext('2d');
     }
 
@@ -78,9 +80,16 @@ class GameplayActions{
             });
 
             // Set color
-            let color = rock_player1_color;
+            let color = rock_player1_color_dark;
             if(players.getCurrent().getName() == 2){
                 color =  rock_player2_color;
+            }
+
+            if(this.style == "purple"){
+                color = rock_player1_color;
+                if(players.getCurrent().getName() == 2){
+                    color =  rock_player2_color_dark;
+                }
             }
 
             // Draw the rock

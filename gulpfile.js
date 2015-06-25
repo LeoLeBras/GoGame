@@ -376,7 +376,6 @@ gulp.task('dist', ['clean-dist'], function(){
    gulp.src(buildDir + '*.html')
        .pipe(assets)
        .pipe(gulpif('*.css', minifyCSS({keepSpecialComments: 0})))
-       .pipe(gulpif('*.js', uglify()))
        .pipe(assets.restore())
        .pipe(useref())
        .pipe(gulp.dest(distDir));
@@ -392,8 +391,11 @@ gulp.task('dist', ['clean-dist'], function(){
        .pipe(minifyCSS(minifyCSS({keepSpecialComments: 0})))
        .pipe(gulp.dest(distDir + cssDir));
 
-    gulp.src(buildDir + jsDir + '*')
+    gulp.src([buildDir + jsDir + '*', '!' + buildDir + jsDir + '*.es6.js'])
        .pipe(uglify())
+       .on('error', function (err) {
+           console.log(err.message);
+       })
        .pipe(gulp.dest(distDir + jsDir));
 
 });
