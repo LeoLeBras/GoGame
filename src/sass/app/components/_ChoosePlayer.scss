@@ -1,12 +1,12 @@
-/** 
+/**
  * ChoosePlayer Component Style
  *
- */ 
+ */
 
 .ChoosePlayer{
 	width: 100%;
 	text-align: center;
-	
+
 	&_title{
 		display: inline-block;
 		position: relative;
@@ -57,7 +57,7 @@
 		}
 
 		@keyframes pulse{
-			0%{ 
+			0%{
 				top:0px;
 			}
 			50%{
@@ -85,7 +85,7 @@
 		&.-purple{
 			left: 50%;
 			background: $secondary-color;
-
+			
 			&:before{
 				background-image: url('../img/chosePlayer-evilminion.png');
 				background-size: 430px 422px;
@@ -102,5 +102,5 @@
 			opacity: 1;
 		}
 	}
-	
+
 }

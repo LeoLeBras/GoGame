@@ -5,10 +5,7 @@ class SaveActions{
      * Constructor
      *
      */   
-    constructor(){
-        sessionStorage.getItem('rocks');
-    	sessionStorage.getItem('chains');
-    }
+    constructor(){}
 
 
 
