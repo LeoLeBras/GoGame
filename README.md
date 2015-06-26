@@ -5,4 +5,4 @@ You must have figured out difficult it is to remember all the different rules an
 
 *The app is based on React Native and is only available on iOS 7.1+.*
 
-*With <3 from Paris by Charles Mangwa!*
+**With <3 from Paris by Charles Mangwa!**
