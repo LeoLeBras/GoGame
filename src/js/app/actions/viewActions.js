@@ -17,6 +17,8 @@ class ViewActions{
      *
      */  
     showChoicePlayers(mode){
+        const $rush = $('.SelectMode_item.-rush');
+        const $clash = $('.SelectMode_item.-clash');
 
         let $elClick = $clash;
         let $elDisappear = $rush;
@@ -33,6 +35,7 @@ class ViewActions{
         $elClick::addClass('is-active');
 
         setTimeout(() => {
+            const $choiceModes_minion = $('.SelectMode_minion');
             Velocity($choiceModes_minion[0], {
                 top: '-100%'
             },{
@@ -52,7 +55,7 @@ class ViewActions{
                     },{
                         delay: 400
                     });
-
+                    const $choiceModes = $('.SelectMode');
                     $choiceModes::remove();
                     $wrapper::insert(`
                         <div class="ChoosePlayer" style="opacity:0">
@@ -172,6 +175,13 @@ class ViewActions{
                                 className = 'purple';
                             }
 
+                            if(player == 'player1'){
+                                players.initialyze(1);
+                            }
+                            else{
+                                players.initialyze(2);
+                            }
+
                             $wrapper::insert(`
                                 <div class="Game -${className}">
                                     <div class="Game_goban" style="margin-top: 150%">
@@ -179,14 +189,14 @@ class ViewActions{
                                         <canvas class="Game_goban_gameplay"></canvas>
                                     </div>
                                     <div class="Game_control" style="margin-top: 150%">
-                                        <span class="Game_control_currentPlayer">Joueur 2</span>
-                                        <span class="Game_control_timer">00:34</span>
+                                        <span class="Game_control_currentPlayer">Joueur ${players.getCurrent().getName()}</span>
                                         <a role="button" class="Game_control_button -next">Passer mon tour</a>
                                         <a role="button" class="Game_control_button -stop">Abandonner</a>
                                         <a role="button" class="Game_control_button -stop">Sauvegarder</a>
                                     </div>
                                 </div>
                             `);
+
                             this.Builder = new BuilderActions(className);
                             this.Builder.run();
 
@@ -218,10 +228,147 @@ class ViewActions{
 
 
     /**
+     * Show score
+     *
+     */  
+    showScore(){
+        const $goban = $('.Game_goban'); 
+        const $control = $('.Game_control'); 
+
+        Velocity($goban, {
+            marginTop: '150%'
+        },{
+            duration: 400,
+            delay: 100
+        });
+
+        Velocity($control, {
+            marginTop: '150%'
+        },{
+            duration: 400,
+            delay: 200,
+            complete: () => {
+                $('.Game')::remove();
+            }
+        });
+
+        Velocity($('body')[0], {
+            backgroundColor: '#fffed7'
+        },{
+            duration: 400,
+            delay: 280
+        });
+
+        $wrapper::insert(`
+            <div class="Score" style="top: 150%">
+                <div class="Score_minion"></div>
+                <a class="Score_restart" style="margin-top: 102px;"></a>
+                <div class="Score_players">
+                    <div class="Score_player">
+                        <h2 class="Score_player_title">Joueur 1</h2>
+                        <ul class="Score_player_list">
+                            <li class="Score_player_item">Pierres mangées: 10</li>
+                            <li class="Score_player_item">Territoire: 12</li>
+                        </ul>
+                        <span class="Score_player_total">Total: 32</span>
+                    </div>
+                    <div class="Score_player">
+                        <h2 class="Score_player_title">Joueur 2</h2>
+                        <ul class="Score_player_list">
+                            <li class="Score_player_item">Pierres mangées: 14</li>
+                            <li class="Score_player_item">Territoire: 15</li>
+                        </ul>
+                        <span class="Score_player_total">Total: 32</span>
+                    </div>
+                </div>
+                <div class="Score_share">
+                    <span role="button" class="Score_share_item -twitter">Twitter</span>
+                    <span role="button" href="" class="Score_share_item -facebook">Facebook</span>
+                </div>
+            </div>
+        `);
+
+        Velocity($('.Score')[0], {
+            top: 0
+        },{
+            duration: 500,
+            delay: 400,
+            complete: () => {
+                Velocity($('.Score_restart')[0],{
+                    marginTop: 0,
+                },{
+                    duration: 280,
+                    complete: () => {
+                        $('.Score_restart')::css({
+                            zIndex: 10
+                        });
+                    }
+                })
+            }
+        })
+    }
+
+
+
+
+    /**
+     * Show choice mode
+     *
+     */  
+    showChoiceMode(){
+        $('.Score_restart')::css({
+            zIndex: -1
+        });
+
+        Velocity($('.Score_restart'),{
+            marginTop: '102px'
+        })
+
+        Velocity($('.Score'),{
+            top: '150%'
+        },{
+            delay: 500,
+            complete: () => {
+                $('.Score')::remove();
+                Velocity($('body'), {
+                    backgroundColor : '#fdd961'
+                });
+                $wrapper::insert(`
+                    <div class="SelectMode">
+                        <div class="SelectMode_item -rush" style="margin-top: 150%">Minion Rush</div>
+                        <div class="SelectMode_item -clash" style="margin-top: 150%">Minion Clash</div>
+                        <div class="SelectMode_minion" style="top: -150%"></div>
+                    </div>
+                `);
+
+                Velocity($('.SelectMode_minion'), {
+                    top: '50%'
+                });
+
+                Velocity($('.SelectMode_item.-rush'), {
+                    marginTop: 0
+                },{
+                    delay: 200
+                });
+
+                Velocity($('.SelectMode_item.-clash'), {
+                    marginTop: 0
+                },{
+                    delay: 400
+                });
+            }
+        })
+    }
+
+
+
+
+    /**
      * Switch players
      *
      */  
     switchPlayers(){
+        const $playerCurrent = $('.Game_control_currentPlayer');
         $playerCurrent::text(`Joueur ${players.getCurrent().getName()}`);
     }
 

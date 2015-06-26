@@ -16,7 +16,7 @@
 	    },
 	    {
 		    title: 'example2',
-		    description: 'description2',
+		    description: 'description2 dd qq PLM',
 		    categories: ['category2', 'category3']
 	    },
 	    {
@@ -26,13 +26,19 @@
 		},];
 
 		function search(value){
+			var value = value.toLowerCase();
 			var resultats = [];
+			var cache = [];
+			var description = [];
+
 			for(var i in tab){
-			    for(var y in tab[i].categories){
-			    	if(tab[i].categories[y] == value){
-			    		resultats.push(tab[i]);
-			    	}
-			    }
+		    	tab[i].description = tab[i].description.toLowerCase();
+		    	description = tab[i].description.split(' ');
+		    	if((tab[i].categories.indexOf(value) != -1 || tab[i].title == value || description.indexOf(value) != -1)
+		    		&& cache.indexOf(tab[i].title) == -1){
+		    		resultats.push(tab[i]);
+		    		cache.push(tab[i].title);
+		    	}
 			}
 			return resultats;
 		}

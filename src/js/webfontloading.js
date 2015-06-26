@@ -58,14 +58,6 @@
         fontDirUrl = './css/',
         fontFileUrl = fontDirUrl + 'woff.css';
 
-    /*if( supportsWoff2 ) {
-        fontFileUrl = fontDirUrl + '--woff2.css';
-    }*/
-    
-    if(ua.indexOf( "Android" ) > -1 && ua.indexOf( "like Gecko" ) > -1 && ua.indexOf( "Chrome" ) === -1 ){
-        fontFileUrl = fontDirUrl + 'ttf.css';
-    }
-
     loadCSS( fontFileUrl );
 
 }( this ));

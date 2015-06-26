@@ -4,7 +4,7 @@
  */  
 
  // Gameplay
-const mode = 'rush';
+const mode = 'clash';
 const grid = 13;
 
 // Selectors goban

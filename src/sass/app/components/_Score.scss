@@ -8,7 +8,7 @@
 	$minion-width: 300px;
 	$minion-height: 663px;
 
-	&:before{
+	&_minion{
 		content: '';
 		display: block;
 		position: absolute;
@@ -38,6 +38,7 @@
 		background-repeat: no-repeat;
 		transition: transform ease .3s;
 		cursor: pointer;
+		z-index: -1;
 
 		&:hover{
 			transform: rotate(360deg);

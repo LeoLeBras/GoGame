@@ -32,6 +32,7 @@ var autoprefixer = require('gulp-autoprefixer'),
     gulpif = require('gulp-if'),
     gutil = require('gulp-util'),
     imagemin = require('gulp-imagemin'),
+    inlinesource = require('gulp-inline-source'),
     otf2ttf = require('otf2ttf');
     minifyCSS = require('gulp-minify-css'),
     pngcrush = require('imagemin-pngcrush'),
@@ -218,6 +219,7 @@ gulp.task('img', function(){
 
 gulp.task('html', function(){
    gulp.src(srcDir + '*.html')
+      .pipe(inlinesource())
       .pipe(gulp.dest(buildDir))
       .pipe(reload({stream: true}));
 });

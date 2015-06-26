@@ -15,6 +15,18 @@ class Players{
 
 
 
+
+    /**
+     * Initialyze
+     *
+     */  
+    initialyze(player){
+        this.current = player;
+    }
+
+
+
+
     /**
      * Get the current player
      *
