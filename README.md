@@ -10,7 +10,7 @@
 
 Installation
 -------
-`npm install`
+`npm install`</br>
 `gulp dev`
 
 Licence
