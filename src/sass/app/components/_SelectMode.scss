@@ -5,13 +5,13 @@
 
 @keyframes pulse{
 	0%{ 
-		top:0px;
+		transform: translateY(0);
 	}
 	50%{
-		top: -20px;
+		transform: translateY(-20px);
 	}
 	100%{
-		top:0px
+		transform: translateY(0);
 	}
 }
 
@@ -52,14 +52,37 @@
 		width: 141px;
 		color: rgba(black, .9);
 		cursor: pointer;
-		transition: color .3s ease;
+		transition: color .3s ease, margin-top .3s ease;
 
 		& + &{
 			margin-left: 500px;
 		}
 
+		p{
+			margin-top: 10px;
+			font-size: 19px;
+			width: 160%;
+			margin-left: -30%;
+			line-height: 19px;
+			color: rgba(black, .6);
+			transition: opacity ease .3s;
+			opacity: 0;
+		}
+
+		&.is-helped{
+			margin-top: -14px; 
+
+			p{
+				opacity: 1;
+			}
+		}
+
 		&:hover{
 			color: rgba(black, .5);
+
+			p{
+				color: rgba(black, .3);
+			}
 		}
 
 		&:hover:before, &.is-active:before{
@@ -77,5 +100,21 @@
 		margin-top:-300px;
 		margin-left: -127px;
 		background: url('../img/selectMode_minion.png');
+	}
+
+	&_help{
+		position: absolute;
+		top: 50%;
+		left:50%;
+		margin-top: 267px;
+		transform: translateX(-50%);
+		font-size: 20px;
+		font-weight: 700;
+		color: rgba(black, .5);
+		cursor: pointer;
+
+		&:hover{
+			color: rgba(black,.3);
+		}
 	}
 }

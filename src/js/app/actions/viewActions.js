@@ -19,6 +19,7 @@ class ViewActions{
     showChoicePlayers(mode){
         const $rush = $('.SelectMode_item.-rush');
         const $clash = $('.SelectMode_item.-clash');
+        const $help = $('.SelectMode_help');
 
         let $elClick = $clash;
         let $elDisappear = $rush;
@@ -36,6 +37,9 @@ class ViewActions{
 
         setTimeout(() => {
             const $choiceModes_minion = $('.SelectMode_minion');
+            Velocity($help,{
+                opacity: 0
+            });
             Velocity($choiceModes_minion[0], {
                 top: '-100%'
             },{
@@ -345,9 +349,10 @@ class ViewActions{
                 });
                 $wrapper::insert(`
                     <div class="SelectMode">
-                        <div class="SelectMode_item -rush" style="margin-top: 150%">Minion Rush</div>
-                        <div class="SelectMode_item -clash" style="margin-top: 150%">Minion Clash</div>
+                        <div class="SelectMode_item -rush" style="margin-top: 150%">Minion Rush <p>Envie de jouer entre amis au sein d'un mode multijouer ?</p></div>
+                        <div class="SelectMode_item -clash" style="margin-top: 150%">Minion Clash <p>Tenterez-vous de combatre notre féroce intelligence artificielle ?</p></div>
                         <div class="SelectMode_minion" style="top: -150%"></div>
+                        <div class="SelectMode_help">BESOINS D’AIDE DANS LE CHOIX DE VOTRE MODE ?</div>
                     </div>
                 `);
 

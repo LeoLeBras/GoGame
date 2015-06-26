@@ -58,7 +58,7 @@ class gameplayRobotActions extends GameplayActions{
      */  
     play(){
 
-        this.delay = Math.floor(Math.random() * 2400) + 200;
+        this.delay = Math.floor(Math.random() * 200) + 50;
         this.type = 'null';
         let i = 0;
 

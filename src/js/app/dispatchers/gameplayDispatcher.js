@@ -52,6 +52,19 @@ class GameplayDispatcher{
             this.initialyzePlayers('clash');
         });
 
+        // Click on helper
+        const $modes_help = $('.SelectMode_help');
+        $modes_help::on('click', () => {
+            if($clash::hasClass('is-helped')){
+                $clash::removeClass('is-helped');
+                $rush::removeClass('is-helped');
+            }
+            else{
+                $clash::addClass('is-helped');
+                $rush::addClass('is-helped');
+            }
+        })
+
     }
 
 
