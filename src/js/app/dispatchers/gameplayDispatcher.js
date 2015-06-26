@@ -151,6 +151,12 @@ class GameplayDispatcher{
                 this.initialyzeScore(user);
             });
 
+            // Stop the gameplay
+            const $save = $('.Game_control_button.-save');
+            $save::on('click', () => {
+                this.Save().update();
+            });
+
             // Switch player
             const $next = $('.Game_control_button.-next');
             $next::on('click', () => {

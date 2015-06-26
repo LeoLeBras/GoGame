@@ -19,6 +19,7 @@ class gameplayRobotActions extends GameplayActions{
      *
      */  
     initialyze(){
+        $('.Game_goban')::create(`$('.Wrapper')`;
         super.initialyze();
     }
 
