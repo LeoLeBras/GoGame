@@ -1,9 +1,8 @@
-<h1>Minions Go™ by HETIC P2019</h1>
+<h1>MinionsGo</h1>
+<h3> A compagnion app based on React Native !</h3>
 
-**Project manager** : Léo LE BRAS<br/>
-**Lead designer** : Raphaëlle LIMOGES<br/>
-**Lead developer** : Léo LE BRAS<br/>
-**Communication manager** : Charles MANGWA<br/>
-**Developers** : Alexandra COSSID - Théo KUNETZ - Charles MANGWA<br/><br/>
+You must have figured out difficult it is to remember all the different rules and strange names of the go game. With your companion app, you don't need to worry anymore: by a quick search you'll find the rule, tip, advice, you're looking for. You can also display results by categories in a trice.
 
-*With <3 from Paris !*
+*The app is based on React Native and is only available on iOS 7.1+.*
+
+*With <3 from Paris by Charles Mangwa!*
