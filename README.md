@@ -8,6 +8,11 @@
 
 *With <3 from Paris !*
 
+Installation
+-------
+`npm install`
+`gulp dev`
+
 Licence
 -------
 
