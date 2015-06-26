@@ -1,16 +1,16 @@
 {
-  "name": "Starter",
+  "name": "Minions Go",
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
   "author": "Léo Le Bras <leo.lebrasf@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/LeoLeBras/Memories/issues"
+    "url": "https://github.com/LeoLeBras/GoGame/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/LeoLeBras/Memories.git"
+    "url": "https://github.com/LeoLeBras/GoGame"
   },
   "devDependencies": {
     "babelify": "^6.0.2",
