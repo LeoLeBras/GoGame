@@ -22,8 +22,8 @@ class GameplayDispatcher{
      */  
     update(){
         this.Gameplay.updateChains();
-        this.Gameplay.updateGoban();
-        this.Save.update();
+        let response = this.Gameplay.updateGoban();
+        this.Score.update(response);
         this.Gameplay.switchPlayers();
         this.View.switchPlayers();
     }
@@ -51,7 +51,7 @@ class GameplayDispatcher{
             this.View.showChoicePlayers('clash');
             this.initialyzePlayers('clash');
         });
-        
+
     }
 
 
@@ -69,14 +69,15 @@ class GameplayDispatcher{
 
             // Select player 1
             $player1::on('click', () => {
-                this.View.showGoban('player1', modeSelect);
-                this.initialyzeGameplay('player1', modeSelect);
+                const player_human = 1;
+                this.View.showGoban('player1', modeSelect, 1);
+                this.initialyzeGameplay('player1', modeSelect, 1);
             });
 
             // Select player 2
             $player2::on('click', () => {
-                this.View.showGoban('player2', modeSelect);
-                this.initialyzeGameplay('player2', modeSelect);
+                this.View.showGoban('player2', modeSelect, 2);
+                this.initialyzeGameplay('player2', modeSelect, 2);
             });
         }, 3000);
      }
@@ -89,7 +90,7 @@ class GameplayDispatcher{
      * Initialyze the gameplay
      *
      */  
-    initialyzeGameplay(player, modeSelect){
+    initialyzeGameplay(player, modeSelect, user){
         let color = 'yellow';
         if(player == 'player2'){
             color = 'purple';
@@ -112,7 +113,7 @@ class GameplayDispatcher{
 
                     // Artificial Intelligence
                     if(mode == 'clash' &&
-                       players.getCurrent().getName() == 2){
+                       players.getCurrent().getName() != user){
 
                         // If the AI find something to do
                         if(this.AI.play()){
@@ -134,7 +135,7 @@ class GameplayDispatcher{
             // Stop the gameplay
             const $stop = $('.Game_control_button.-stop');
             $stop::on('click', () => {
-                this.initialyzeScore();
+                this.initialyzeScore(user);
             });
 
             // Switch player
@@ -148,7 +149,7 @@ class GameplayDispatcher{
                     this.View.switchPlayers();
                 }
                 else{
-                    this.initialyzeScore();
+                    this.initialyzeScore(user);
                 }
             });
         },3300);
@@ -163,18 +164,19 @@ class GameplayDispatcher{
      *
      */     
     initialyzeScore(player){
-        this.View.showScore();
+        let score = this.Score.get();
+        this.View.showScore(score, player);
 
         const $facebook = $('.Score_share_item.-facebook');
         const $twitter = $('.Score_share_item.-twitter');
         const $reload = $('.Score_restart');
 
         $facebook::on('click', () => {
-            this.View.showFacebookShare();
+            this.View.showFacebookShare(score);
         });
 
         $twitter::on('click', () => {
-            this.View.showTwitterShare();
+            this.View.showTwitterShare(score);
         });
 
         $reload::on('click', () => {

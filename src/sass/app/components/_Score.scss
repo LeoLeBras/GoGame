@@ -17,6 +17,14 @@
 		margin-top: $minion-height / -3.5;
 		margin-left: $minion-width * -1 + 60px;
 		background-image: url('../img/score_win.png');
+
+		&.-loose{
+			background-image: url('../img/score_loose.png');
+		}
+
+		&.-equal{
+			background-image: url('../img/score_equal.png');
+		}
 	}
 	
 	position: relative;

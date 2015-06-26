@@ -230,8 +230,10 @@ class ViewActions{
     /**
      * Show score
      *
+     * @param query (array)
+     * @param user (number)
      */  
-    showScore(){
+    showScore(query, user){
         const $goban = $('.Game_goban'); 
         const $control = $('.Game_control'); 
 
@@ -259,26 +261,34 @@ class ViewActions{
             delay: 280
         });
 
+        var type;
+        if(query[0].winner == 0){
+            type = '-equal';
+        }
+        else if(query[0].winner != user){
+            type = '-loose';
+        }
+
         $wrapper::insert(`
             <div class="Score" style="top: 150%">
-                <div class="Score_minion"></div>
+                <div class="Score_minion ${type}"></div>
                 <a class="Score_restart" style="margin-top: 102px;"></a>
                 <div class="Score_players">
                     <div class="Score_player">
                         <h2 class="Score_player_title">Joueur 1</h2>
                         <ul class="Score_player_list">
-                            <li class="Score_player_item">Pierres mangées: 10</li>
-                            <li class="Score_player_item">Territoire: 12</li>
+                            <li class="Score_player_item">Pierres mangées: ${query[1].prisoners}</li>
+                            <li class="Score_player_item">Territoire: ${query[1].chains}</li>
                         </ul>
-                        <span class="Score_player_total">Total: 32</span>
+                        <span class="Score_player_total">Total: ${query[1].total}</span>
                     </div>
                     <div class="Score_player">
                         <h2 class="Score_player_title">Joueur 2</h2>
                         <ul class="Score_player_list">
-                            <li class="Score_player_item">Pierres mangées: 14</li>
-                            <li class="Score_player_item">Territoire: 15</li>
+                            <li class="Score_player_item">Pierres mangées: ${query[2].prisoners}</li>
+                            <li class="Score_player_item">Territoire: ${query[2].chains}</li>
                         </ul>
-                        <span class="Score_player_total">Total: 32</span>
+                        <span class="Score_player_total">Total: ${query[2].total}</span>
                     </div>
                 </div>
                 <div class="Score_share">
@@ -378,10 +388,11 @@ class ViewActions{
     /**
      * Share on facebook
      *
+     * @param score (array)
      */  
-    showFacebookShare(){
+    showFacebookShare(score){
         let url = 'minions.leolebras.com';
-        window.open('http://www.facebook.com/sharer.php?s=100&p[title]=Nouveau score !&p[summary]=J’ai atteint 522 points sur minionsindagame.com : on parie que personne ne fait mieux ? Do or do not: there is no try! »&p[url]=' + url, 'sharer', 'width=700','height=450');
+        window.open('http://www.facebook.com/sharer.php?s=100&p[title]=Nouveau score !&p[summary]=J’ai atteint ' + score[1].total + ' points sur minionsindagame.com : on parie que personne ne fait mieux ? Do or do not: there is no try! »&p[url]=' + url, 'sharer', 'width=700','height=450');
     }
 
 
@@ -390,9 +401,10 @@ class ViewActions{
     /**
      * Tweet on Twiter
      *
+     * @param score (array)
      */  
-    showTwitterShare(){
+    showTwitterShare(score){
         let url = 'minions.leolebras.com';
-        window.open('https://twitter.com/intent/tweet?text=J’ai atteint 200 points sur ' + url + ' : on parie que personne ne fait mieux ? Do or do not: there is no try! »&source=webclient', 'Tweet your record', 'width=700, height=450');
+        window.open('https://twitter.com/intent/tweet?text=J’ai atteint ' + score[1].total + ' points sur ' + url + ' : on parie que personne ne fait mieux ? Do or do not: there is no try! »&source=webclient', 'Tweet your record', 'width=700, height=450');
     }
 }

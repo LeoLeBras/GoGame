@@ -417,10 +417,12 @@ class GameplayActions{
     /**
      * Handle the goban with the update of chains
      *
+     * @return response (array)
      */  
     updateGoban(){
 
         let neighbors = this.getRock().getNeighboringRocks('ennemy');
+        let response = [];
 
         if(neighbors.length != 0){
 
@@ -440,9 +442,12 @@ class GameplayActions{
                         let y = rock.y * cellSize - 1 - rockSize / 2;
                         this.canvas.clearRect(x,y,rockSize + 2, rockSize + 2);
                         rocks.select(rock).remove();
+                        response.push({x: rock.x, y: rock.y, player: players.getCurrent().getName()});
                     }
                 }
             }
         }
+
+        return response;
     }
 }

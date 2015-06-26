@@ -52,6 +52,18 @@ class Players{
 
 
     /**
+     * Get the player by id
+     *
+     * @return id (number)
+     */  
+    get(id){
+        return this.players[id];
+    }
+
+
+
+
+    /**
      * Switch player
      *
      */  
